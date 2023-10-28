@@ -53,6 +53,17 @@ class MenuScreen extends StatelessWidget {
         crossAxisCount: 3,
         children: [
           CustomCard(
+            titleCard: 'Master Stock',
+            iconCard: const Icon(
+              Icons.inventory_2_rounded,
+              size: 70,
+              color: Colors.blue,
+            ),
+            onTapCallback: () {
+              Navigator.pushNamed(context, '/master');
+            },
+          ),
+          CustomCard(
             titleCard: 'Users',
             iconCard: const Icon(
               Icons.person,

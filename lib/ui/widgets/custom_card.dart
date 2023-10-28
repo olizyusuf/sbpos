@@ -20,16 +20,17 @@ class CustomCard extends StatelessWidget {
         onTap: onTapCallback,
         splashColor: Colors.blue,
         child: Center(
-            child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            iconCard,
-            Text(
-              titleCard,
-              style: const TextStyle(fontSize: 18),
-            ),
-          ],
-        )),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              iconCard,
+              Text(
+                titleCard,
+                style: const TextStyle(fontSize: 14),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:sbpos/ui/add_user_screen.dart';
 import 'package:sbpos/ui/edit_user_screen.dart';
 import 'package:sbpos/ui/level_screen.dart';
 import 'package:sbpos/ui/login_screen.dart';
+import 'package:sbpos/ui/master_screen.dart';
 import 'package:sbpos/ui/menu_screen.dart';
 import 'package:sbpos/ui/users_screen.dart';
 
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           '/addUser': (context) => const AddUserScreen(),
           '/editUser': (context) => const EditUserScreen(),
           '/level': (context) => const LevelScreen(),
+          '/master': (context) => const MasterScreen(),
         },
       ),
     );
