@@ -1,15 +1,14 @@
-# sbpos
+# SB Pos
 
-A new Flutter project.
+SB Pos is Standalone point of sales for Android Devices.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a build with Flutter Framework.
 
-A few resources to get you started if this is your first Flutter project:
+For information you can visit:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Personal Websoite](https://olizyusuf.my.id)
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
