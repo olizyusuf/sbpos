@@ -34,7 +34,7 @@ class UsersScreen extends StatelessWidget {
                     usersProv.clearTextField();
                     Navigator.pushNamed(context, '/addUser');
                   },
-                  child: const Text('Add'),
+                  child: const Text('Tambah'),
                 ),
               ],
             ),
@@ -44,7 +44,7 @@ class UsersScreen extends StatelessWidget {
                 return Expanded(
                   child: value.users.length.isNaN
                       ? const Center(
-                          child: Text('Users is empty'),
+                          child: Text('Users masih kosong'),
                         )
                       : ListView.builder(
                           itemCount: value.users.length,
@@ -93,23 +93,23 @@ class UsersScreen extends StatelessWidget {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title: const Text('Delete'),
+                                              title: const Text('Hapus'),
                                               content: Text(
-                                                  'Are you sure delete ${userData.user} ?!'),
+                                                  'Apakah yakin ${userData.user} dihapus?!'),
                                               actions: [
                                                 ElevatedButton(
                                                   onPressed: () {
                                                     Navigator.pop(
                                                         context, true);
                                                   },
-                                                  child: const Text('Yes'),
+                                                  child: const Text('Ya'),
                                                 ),
                                                 TextButton(
                                                   onPressed: () {
                                                     Navigator.pop(
                                                         context, false);
                                                   },
-                                                  child: const Text('Cancel'),
+                                                  child: const Text('Batal'),
                                                 )
                                               ],
                                             );

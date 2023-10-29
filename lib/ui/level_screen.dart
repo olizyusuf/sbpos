@@ -109,7 +109,7 @@ class LevelScreen extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  title: Text('Edit Menu for ${data.level}'),
+                                  title: Text('Edit Menu ${data.level}'),
                                   content: Container(
                                     color: Colors.grey[200],
                                     width: 300,

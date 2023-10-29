@@ -180,11 +180,11 @@ class MasterScreen extends StatelessWidget {
                   columnSpacing: 40,
                   horizontalMargin: 10,
                   rowsPerPage: pageSize,
-                  availableRowsPerPage: const [7, 14, 25],
-                  onRowsPerPageChanged: (value) {
-                    pageSize = value!;
-                    debugPrint(value.toString());
-                  },
+                  // availableRowsPerPage: const [7, 14, 25],
+                  // onRowsPerPageChanged: (value) {
+                  //   pageSize = value!;
+                  //   debugPrint(value.toString());
+                  // },
                   columns: const [
                     DataColumn(
                       label: Text(

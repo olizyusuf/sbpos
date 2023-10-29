@@ -9,7 +9,7 @@ class AddUserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String title = 'New user';
+    String title = 'Tambah user';
 
     UsersProvider usersProv =
         Provider.of<UsersProvider>(context, listen: false);
@@ -127,7 +127,7 @@ class AddUserScreen extends StatelessWidget {
                     onPressed: () {
                       usersProv.addUser(context);
                     },
-                    child: const Text('Save'),
+                    child: const Text('Simpan'),
                   ),
                   const SizedBox(
                     width: 10,
@@ -137,7 +137,7 @@ class AddUserScreen extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     child: const Text(
-                      'Cancel',
+                      'Batal',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),

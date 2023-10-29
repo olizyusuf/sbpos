@@ -53,7 +53,7 @@ class MenuScreen extends StatelessWidget {
         crossAxisCount: 3,
         children: [
           CustomCard(
-            titleCard: 'Master Stock',
+            titleCard: 'Master',
             iconCard: const Icon(
               Icons.inventory_2_rounded,
               size: 70,

@@ -138,7 +138,7 @@ class EditUserScreen extends StatelessWidget {
                       usersProv.clearTextField();
                     },
                     child: const Text(
-                      'Cancel',
+                      'Batal',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
