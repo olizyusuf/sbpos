@@ -57,7 +57,6 @@ class LevelScreen extends StatelessWidget {
                                     return Card(
                                       child: ListTile(
                                         title: Text(menuTitle),
-                                        subtitle: Text(permission),
                                         trailing: Checkbox(
                                           value:
                                               permission == '1' ? true : false,
@@ -126,7 +125,6 @@ class LevelScreen extends StatelessWidget {
                                             return Card(
                                               child: ListTile(
                                                 title: Text(menuTitle),
-                                                subtitle: Text(permission),
                                                 trailing: Checkbox(
                                                   value: permission == '1'
                                                       ? true
