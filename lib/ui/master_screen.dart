@@ -137,7 +137,7 @@ class MasterScreen extends StatelessWidget {
       },
     ];
 
-    int pageSize = 7;
+    int pageSize = 10;
 
     return Scaffold(
       appBar: AppBar(
@@ -164,7 +164,9 @@ class MasterScreen extends StatelessWidget {
                     child: const Text('Price Level'),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/addMaster');
+                    },
                     child: const Text('Add'),
                   ),
                   ElevatedButton(

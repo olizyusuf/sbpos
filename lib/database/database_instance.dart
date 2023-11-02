@@ -48,5 +48,28 @@ class DatabaseInstance {
       FOREIGN KEY("level") REFERENCES "level"("id_level")
       ); 
     ''');
+    await db.execute('''CREATE TABLE "kategori" (
+      "id_kategori"	INTEGER NOT NULL,
+      "nama"	TEXT NOT NULL,
+      "create_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
+      "update_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY("id_kategori" AUTOINCREMENT)
+      );
+    ''');
+    await db.execute('''CREATE TABLE "master" (
+      "kd_barang"	TEXT NOT NULL,
+      "barcode"	TEXT NOT NULL,
+      "nama"	TEXT NOT NULL,
+      "stock"	NUMERIC NOT NULL,
+      "satuan"	TEXT NOT NULL,
+      "h_beli"	NUMERIC NOT NULL,
+      "h_jual"	NUMERIC NOT NULL,
+      "kategori"	INTEGER NOT NULL,
+      "create_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
+      "update_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY("kd_barang"),
+      FOREIGN KEY("kategori") REFERENCES kategori("id_kategori")
+      );
+    ''');
   }
 }
