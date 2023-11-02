@@ -22,6 +22,7 @@ class LoginProvider extends ChangeNotifier {
     if (bypassMatel) {
       debugPrint('navigator ke menu utama');
       Navigator.pushReplacementNamed(context, '/menu');
+      user = 'Matel';
       clearForm();
     } else {
       Database db = await dbInstance.database();
