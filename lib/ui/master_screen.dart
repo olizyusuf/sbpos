@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sbpos/providers/master_provider.dart';
 import 'package:sbpos/ui/utils.dart';
 
 class MasterScreen extends StatelessWidget {
@@ -139,6 +141,9 @@ class MasterScreen extends StatelessWidget {
 
     int pageSize = 10;
 
+    MasterProvider masterProv =
+        Provider.of<MasterProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -165,7 +170,8 @@ class MasterScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/addMaster');
+                      //Navigator.pushNamed(context, '/addMaster');
+                      masterProv.getKategori();
                     },
                     child: const Text('Add'),
                   ),

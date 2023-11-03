@@ -50,7 +50,7 @@ class DatabaseInstance {
     ''');
     await db.execute('''CREATE TABLE "kategori" (
       "id_kategori"	INTEGER NOT NULL,
-      "nama"	TEXT NOT NULL,
+      "nama"	TEXT NOT NULL UNIQUE,
       "create_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
       "update_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
       PRIMARY KEY("id_kategori" AUTOINCREMENT)
