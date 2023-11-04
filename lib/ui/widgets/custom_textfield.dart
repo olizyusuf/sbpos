@@ -11,7 +11,7 @@ class CustomTextfield extends StatelessWidget {
     required this.colorBorder,
     required this.widthBorder,
     required this.circuralBoder,
-    required this.maxLength,
+    this.maxLength,
   });
 
   final TextEditingController textController;
@@ -22,7 +22,7 @@ class CustomTextfield extends StatelessWidget {
   final Color colorBorder;
   final double widthBorder;
   final double circuralBoder;
-  final int maxLength;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {

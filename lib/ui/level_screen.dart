@@ -30,7 +30,6 @@ class LevelScreen extends StatelessWidget {
                   child: CustomTextfield(
                       textController: usersProv.cLevel,
                       labelText: 'Level',
-                      maxLength: 12,
                       prefIcon: const Icon(Icons.perm_identity_sharp),
                       colorBorder: Colors.blue,
                       widthBorder: 3,
@@ -146,7 +145,7 @@ class LevelScreen extends StatelessWidget {
                                       onPressed: () {
                                         value.updateLevel(
                                             data.idLevel,
-                                            data.level,
+                                            data.level.toUpperCase(),
                                             value.permission.join(''));
                                         Navigator.pop(context);
                                       },

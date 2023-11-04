@@ -69,7 +69,6 @@ class AddUserScreen extends StatelessWidget {
                         textController: usersProv.cLevel,
                         labelText: 'Level',
                         readOnly: true,
-                        maxLength: 20,
                         prefIcon: const Icon(Icons.account_tree),
                         colorBorder: Colors.blue,
                         widthBorder: 3,

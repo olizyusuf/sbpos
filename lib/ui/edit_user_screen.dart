@@ -70,7 +70,6 @@ class EditUserScreen extends StatelessWidget {
                     child: CustomTextfield(
                         textController: usersProv.cLevel,
                         labelText: 'Level',
-                        maxLength: 12,
                         readOnly: true,
                         prefIcon: const Icon(Icons.account_tree),
                         colorBorder: Colors.blue,

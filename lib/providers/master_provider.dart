@@ -38,7 +38,7 @@ class MasterProvider extends ChangeNotifier {
 // todo here
   }
 
-  getKategori() async {
+  void getKategori() async {
     Database db = await dbInstance.database();
     var query = 'SELECT * FROM kategori';
     List<Map<String, dynamic>> response = await db.rawQuery(query);
@@ -52,18 +52,11 @@ class MasterProvider extends ChangeNotifier {
           createAt: r['create_at'],
           updateAt: r['update_at']));
     }
-
-    for (var e in kategori) {
-      debugPrint('${e.idKategori}');
-      debugPrint('${e.nama}');
-      debugPrint('${e.createAt}');
-      debugPrint('${e.updateAt}');
-    }
   }
 
-  addKategori() async {
+  void addKategori() async {
     Database db = await dbInstance.database();
-    var query = 'INSERT INTO kategori(nama) VALUES("MINUMAN")';
+    var query = 'INSERT INTO kategori(nama) VALUES("MAKANAN")';
     var response = await db.rawInsert(query);
     debugPrint(response.toString());
   }

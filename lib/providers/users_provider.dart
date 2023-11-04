@@ -95,7 +95,7 @@ class UsersProvider extends ChangeNotifier {
 
   addUser(BuildContext context) async {
     bool validatePassword = validation();
-    user = cUser.text;
+    user = cUser.text.toUpperCase();
     password = cPassword.text;
 
     if (validatePassword) {
@@ -151,7 +151,7 @@ class UsersProvider extends ChangeNotifier {
 
   updateUser(BuildContext context) async {
     bool validatePassword = validation();
-    user = cUser.text;
+    user = cUser.text.toUpperCase();
     password = cPassword.text;
 
     if (validatePassword) {
