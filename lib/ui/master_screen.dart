@@ -161,19 +161,17 @@ class MasterScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Category'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Price Level'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/kategori');
+                    },
+                    child: const Text('Kategori'),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       //Navigator.pushNamed(context, '/addMaster');
                       masterProv.getKategori();
                     },
-                    child: const Text('Add'),
+                    child: const Text('Tambah'),
                   ),
                   ElevatedButton(
                     onPressed: () {},

@@ -25,19 +25,20 @@ class MenuScreen extends StatelessWidget {
                 builder: (context) {
                   return AlertDialog(
                     title: const Text('Logout'),
-                    content: const Text('Are you sure logout from SB Pos ?!'),
+                    content:
+                        const Text('apakah anda yakin Logout from SB Pos ?!'),
                     actions: [
                       ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context, true);
                         },
-                        child: const Text('Yes'),
+                        child: const Text('Ya'),
                       ),
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context, false);
                         },
-                        child: const Text('Cancel'),
+                        child: const Text('Batal'),
                       )
                     ],
                   );
@@ -70,7 +71,7 @@ class MenuScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Welcome back ${loginProvider.user}!'),
+                        Text('Selamat Datang ${loginProvider.user}!'),
                       ],
                     ),
                   ),

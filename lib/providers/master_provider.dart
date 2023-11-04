@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sbpos/database/database_instance.dart';
 import 'package:sbpos/models/kategori_model.dart';
-import 'package:sbpos/models/master_model.dart';
+import 'package:sbpos/ui/utils.dart';
 import 'package:sqflite/sqflite.dart';
 
 class MasterProvider extends ChangeNotifier {
@@ -38,11 +38,10 @@ class MasterProvider extends ChangeNotifier {
 // todo here
   }
 
-  void getKategori() async {
+  getKategori() async {
     Database db = await dbInstance.database();
     var query = 'SELECT * FROM kategori';
     List<Map<String, dynamic>> response = await db.rawQuery(query);
-    debugPrint(response.toString());
 
     kategori.clear();
     for (var r in response) {
@@ -52,16 +51,53 @@ class MasterProvider extends ChangeNotifier {
           createAt: r['create_at'],
           updateAt: r['update_at']));
     }
+
+    notifyListeners();
   }
 
-  void addKategori() async {
+  getKategoriById(int id) async {
     Database db = await dbInstance.database();
-    var query = 'INSERT INTO kategori(nama) VALUES("MAKANAN")';
-    var response = await db.rawInsert(query);
-    debugPrint(response.toString());
+    var query = 'SELECT * FROM kategori WHERE id_kategori = $id';
+    List<Map<String, dynamic>> response = await db.rawQuery(query);
+
+    if (response.isNotEmpty) {
+      cNamaKategori.text = response[0]['nama'].toString();
+    }
+
+    notifyListeners();
   }
 
-  updateKategori() {
-// todo here
+  addKategori(context) async {
+    String namaKategori = cNamaKategori.text;
+    if (namaKategori.isNotEmpty) {
+      try {
+        Database db = await dbInstance.database();
+        var query =
+            'INSERT INTO kategori(nama) VALUES("${namaKategori.toUpperCase()}")';
+        await db.rawInsert(query);
+
+        cNamaKategori.clear();
+        FocusScope.of(context).unfocus();
+
+        customSnackbar(context, 'Nama berhasil disimpan!', Colors.green,
+            const Duration(seconds: 2));
+      } catch (e) {
+        customSnackbar(context, 'Nama Kategori telah ada!', Colors.red,
+            const Duration(seconds: 2));
+      }
+    } else {
+      customSnackbar(context, 'Nama Kategori Kosong!', Colors.red,
+          const Duration(seconds: 2));
+    }
+    notifyListeners();
+  }
+
+  updateKategori(int id) async {
+    String namaKategori = cNamaKategori.text;
+
+    Database db = await dbInstance.database();
+    var query =
+        'UPDATE kategori SET nama="${namaKategori.toUpperCase()}", update_at=CURRENT_TIMESTAMP WHERE id_kategori = $id';
+    await db.rawUpdate(query);
   }
 }
