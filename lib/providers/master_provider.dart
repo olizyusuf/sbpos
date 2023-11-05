@@ -79,25 +79,53 @@ class MasterProvider extends ChangeNotifier {
         cNamaKategori.clear();
         FocusScope.of(context).unfocus();
 
-        customSnackbar(context, 'Nama berhasil disimpan!', Colors.green,
+        customSnackbar(context, 'Kategori berhasil disimpan!', Colors.green,
             const Duration(seconds: 2));
       } catch (e) {
-        customSnackbar(context, 'Nama Kategori telah ada!', Colors.red,
+        customSnackbar(context, 'Kategori telah ada!', Colors.red,
             const Duration(seconds: 2));
       }
     } else {
-      customSnackbar(context, 'Nama Kategori Kosong!', Colors.red,
-          const Duration(seconds: 2));
+      customSnackbar(
+          context, 'Kategori Kosong!', Colors.red, const Duration(seconds: 2));
     }
     notifyListeners();
   }
 
-  updateKategori(int id) async {
-    String namaKategori = cNamaKategori.text;
+  updateKategori(context, int id) async {
+    try {
+      String namaKategori = cNamaKategori.text;
 
-    Database db = await dbInstance.database();
-    var query =
-        'UPDATE kategori SET nama="${namaKategori.toUpperCase()}", update_at=CURRENT_TIMESTAMP WHERE id_kategori = $id';
-    await db.rawUpdate(query);
+      Database db = await dbInstance.database();
+      var query =
+          'UPDATE kategori SET nama="${namaKategori.toUpperCase()}", update_at=CURRENT_TIMESTAMP WHERE id_kategori = $id';
+      await db.rawUpdate(query);
+      customSnackbar(context, 'Kategori berhasil diubah!', Colors.green,
+          const Duration(seconds: 2));
+    } catch (e) {
+      debugPrint(e.toString());
+      customSnackbar(context, 'Kategori telah ada, gagal diubah.', Colors.red,
+          const Duration(seconds: 2));
+    }
+    getKategori();
+    notifyListeners();
+  }
+
+  deleteKategori(context, int id) async {
+    try {
+      Database db = await dbInstance.database();
+      var query = 'DELETE FROM kategori WHERE id_kategori = $id';
+      await db.rawDelete(query);
+      customSnackbar(context, 'Kategori berhasil berhasil dihapus!',
+          Colors.green, const Duration(seconds: 2));
+    } catch (e) {
+      customSnackbar(
+          context,
+          'kategori tidak bisa dihapus sebelum data barang dihapus.',
+          Colors.red,
+          const Duration(seconds: 2));
+    }
+    getKategori();
+    notifyListeners();
   }
 }

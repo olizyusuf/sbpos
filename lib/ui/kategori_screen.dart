@@ -71,7 +71,8 @@ class Kategori extends StatelessWidget {
                                     actions: [
                                       ElevatedButton(
                                         onPressed: () {
-                                          value.updateKategori(data.idKategori);
+                                          value.updateKategori(
+                                              context, data.idKategori);
                                           Navigator.pop(context);
                                         },
                                         child: const Text('Ubah'),
@@ -85,6 +86,39 @@ class Kategori extends StatelessWidget {
                                 },
                               );
                             },
+                            trailing: IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('Hapus'),
+                                        content: Text(
+                                            'Apakah kategori ${data.nama} akan dihapus?!'),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              value.deleteKategori(
+                                                  context, data.idKategori);
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Ya'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Batal'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Colors.red,
+                                )),
                           ),
                         );
                       },
