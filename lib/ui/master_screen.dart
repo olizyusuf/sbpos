@@ -168,8 +168,7 @@ class MasterScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      //Navigator.pushNamed(context, '/addMaster');
-                      masterProv.getKategori();
+                      Navigator.pushNamed(context, '/addMaster');
                     },
                     child: const Text('Tambah'),
                   ),
