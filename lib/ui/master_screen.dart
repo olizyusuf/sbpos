@@ -10,139 +10,12 @@ class MasterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     String title = 'Master Stock';
 
-    List<Map<String, dynamic>> masterData = [
-      {
-        'id': 1111111,
-        'barcode': '1234562646123',
-        'name': 'Susu saya susu bendera kental manis mantab',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 2222222,
-        'barcode': '3214562646123',
-        'name': 'Mie',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 3333333,
-        'barcode': '3332222646123',
-        'name': 'Coklat',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 4444444,
-        'barcode': '1122332646123',
-        'name': 'Pasta',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-      {
-        'id': 5555555,
-        'barcode': '3241112646123',
-        'name': 'Siomey',
-        'stock': 10,
-        'price': 999000
-      },
-    ];
-
     int pageSize = 10;
 
     MasterProvider masterProv =
         Provider.of<MasterProvider>(context, listen: false);
+
+    masterProv.getMaster();
 
     return Scaffold(
       appBar: AppBar(
@@ -168,6 +41,7 @@ class MasterScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      masterProv.clearText();
                       Navigator.pushNamed(context, '/addMaster');
                     },
                     child: const Text('Tambah'),
@@ -179,61 +53,77 @@ class MasterScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: PaginatedDataTable(
-                  columnSpacing: 40,
-                  horizontalMargin: 10,
-                  rowsPerPage: pageSize,
-                  // availableRowsPerPage: const [7, 14, 25],
-                  // onRowsPerPageChanged: (value) {
-                  //   pageSize = value!;
-                  //   debugPrint(value.toString());
-                  // },
-                  columns: const [
-                    DataColumn(
-                      label: Text(
-                        'Id',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+            Consumer<MasterProvider>(
+              builder: (context, value, child) {
+                return Expanded(
+                  child: SingleChildScrollView(
+                    child: PaginatedDataTable(
+                      columnSpacing: 40,
+                      horizontalMargin: 10,
+                      rowsPerPage: pageSize,
+                      // availableRowsPerPage: const [7, 14, 25],
+                      // onRowsPerPageChanged: (value) {
+                      //   pageSize = value!;
+                      //   debugPrint(value.toString());
+                      // },
+                      columns: const [
+                        DataColumn(
+                          label: Text(
+                            'Kode Barang',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
+                        DataColumn(
+                          label: Text(
+                            'Barcode',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Nama',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Satuan',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Stock',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Harga Beli',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Harga Jual',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Action',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                      source: MyData(masterData: value.masters),
                     ),
-                    DataColumn(
-                      label: Text(
-                        'Barcode',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Name',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Stock',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Price',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Action',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                  source: MyData(masterData: masterData),
-                ),
-              ),
-            ),
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),
@@ -242,7 +132,7 @@ class MasterScreen extends StatelessWidget {
 }
 
 class MyData extends DataTableSource {
-  final List<Map<String, dynamic>> masterData;
+  final List masterData;
 
   MyData({required this.masterData});
 
@@ -251,21 +141,27 @@ class MyData extends DataTableSource {
     var data = masterData[index];
     return DataRow(cells: [
       DataCell(
-        Text(data['id'].toString()),
+        Text(data.kodeBarang.toString()),
       ),
       DataCell(
-        Text(data['barcode']),
+        Text(data.barcode),
       ),
       DataCell(
-        Text(data['name'].length > 20
-            ? '${data['name'].toString().substring(0, 20)}....'
-            : data['name'].toString()),
+        Text(data.nama.length > 20
+            ? '${data.nama.toString().substring(0, 20)}....'
+            : data.nama.toString()),
       ),
       DataCell(
-        Text(data['stock'].toString()),
+        Text(data.satuan.toString()),
       ),
       DataCell(
-        Text(data['price'].toString()),
+        Text(data.stock.toString()),
+      ),
+      DataCell(
+        Text(data.hargaBeli.toString()),
+      ),
+      DataCell(
+        Text(data.hargaJual.toString()),
       ),
       DataCell(
         Row(

@@ -14,6 +14,8 @@ class AddMasterScreen extends StatelessWidget {
     MasterProvider masterProv =
         Provider.of<MasterProvider>(context, listen: false);
 
+    masterProv.getKategori();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -23,73 +25,205 @@ class AddMasterScreen extends StatelessWidget {
         height: displayHeight(context),
         width: displayWidth(context),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomTextfield(
-                textController: masterProv.cKodeBarang,
-                labelText: 'Kode Barang',
-                prefIcon: const Icon(Icons.numbers),
-                colorBorder: Colors.blue,
-                widthBorder: 3,
-                circuralBoder: 5,
-                maxLength: 13,
-              ),
-              CustomTextfield(
-                textController: masterProv.cBarcode,
-                labelText: 'Barcode',
-                prefIcon: const Icon(Icons.qr_code_2_outlined),
-                colorBorder: Colors.blue,
-                widthBorder: 3,
-                circuralBoder: 5,
-                maxLength: 13,
-              ),
-              CustomTextfield(
-                textController: masterProv.cBarcode,
-                labelText: 'Nama',
-                colorBorder: Colors.blue,
-                widthBorder: 3,
-                circuralBoder: 5,
-              ),
-              CustomTextfield(
-                textController: masterProv.cBarcode,
-                labelText: 'Stock',
-                colorBorder: Colors.blue,
-                widthBorder: 3,
-                circuralBoder: 5,
-              ),
-              CustomTextfield(
-                textController: masterProv.cBarcode,
-                labelText: 'Satuan',
-                colorBorder: Colors.blue,
-                widthBorder: 3,
-                circuralBoder: 5,
-              ),
-              CustomTextfield(
-                textController: masterProv.cBarcode,
-                labelText: 'Harga Beli',
-                colorBorder: Colors.blue,
-                widthBorder: 3,
-                circuralBoder: 5,
-              ),
-              CustomTextfield(
-                textController: masterProv.cBarcode,
-                labelText: 'Harga Jual',
-                colorBorder: Colors.blue,
-                widthBorder: 3,
-                circuralBoder: 5,
-              ),
-              CustomTextfield(
-                textController: masterProv.cBarcode,
-                labelText: 'Satuan',
-                colorBorder: Colors.blue,
-                widthBorder: 3,
-                circuralBoder: 5,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('kategori'),
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Column(
+              children: [
+                CustomTextfield(
+                  textController: masterProv.cKodeBarang,
+                  labelText: 'Kode Barang',
+                  prefIcon: const Icon(Icons.numbers),
+                  colorBorder: Colors.blue,
+                  widthBorder: 1,
+                  circuralBoder: 5,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                      child: CustomTextfield(
+                        textController: masterProv.cBarcode,
+                        labelText: 'Barcode',
+                        colorBorder: Colors.blue,
+                        widthBorder: 1,
+                        circuralBoder: 5,
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.qr_code_2_outlined,
+                          size: 36,
+                        ))
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                      child: CustomTextfield(
+                        textController: masterProv.cNama,
+                        labelText: 'Nama',
+                        colorBorder: Colors.blue,
+                        widthBorder: 1,
+                        circuralBoder: 5,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    SizedBox(
+                      width: 75,
+                      child: CustomTextfield(
+                        textController: masterProv.cStock,
+                        labelText: 'Stock',
+                        colorBorder: Colors.blue,
+                        widthBorder: 1,
+                        circuralBoder: 5,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                      child: CustomTextfield(
+                        textController: masterProv.cHargaBeli,
+                        labelText: 'Harga Beli',
+                        colorBorder: Colors.blue,
+                        widthBorder: 1,
+                        circuralBoder: 5,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Flexible(
+                      child: CustomTextfield(
+                        textController: masterProv.cHargaJual,
+                        labelText: 'Harga Jual',
+                        colorBorder: Colors.blue,
+                        widthBorder: 1,
+                        circuralBoder: 5,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 75,
+                      child: CustomTextfield(
+                        textController: masterProv.cSatuan,
+                        labelText: 'Satuan',
+                        colorBorder: Colors.blue,
+                        widthBorder: 1,
+                        circuralBoder: 5,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Flexible(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: CustomTextfield(
+                              textController: masterProv.cNamaKategori,
+                              labelText: 'Kategori',
+                              readOnly: true,
+                              colorBorder: Colors.blue,
+                              widthBorder: 1,
+                              circuralBoder: 5,
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Kategori'),
+                                      content: SizedBox(
+                                        width: 300,
+                                        height: 300,
+                                        child: ListView.builder(
+                                          itemCount: masterProv.kategori.length,
+                                          itemBuilder: (context, index) {
+                                            var data =
+                                                masterProv.kategori[index];
+                                            return Card(
+                                              shadowColor: Colors.blue,
+                                              child: ListTile(
+                                                title: Text(data.nama),
+                                                onTap: () {
+                                                  masterProv.cNamaKategori
+                                                      .text = data.nama;
+                                                  masterProv.idKategori =
+                                                      data.idKategori;
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.list_alt_outlined,
+                                size: 35,
+                              ))
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Batal',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        masterProv.addMaster(context);
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Simpan'),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

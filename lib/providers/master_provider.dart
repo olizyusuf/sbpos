@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sbpos/database/database_instance.dart';
 import 'package:sbpos/models/kategori_model.dart';
+import 'package:sbpos/models/master_model.dart';
 import 'package:sbpos/ui/utils.dart';
 import 'package:sqflite/sqflite.dart';
 
 class MasterProvider extends ChangeNotifier {
+  int? idKategori;
+
   List masters = [];
 
   List kategori = [];
@@ -22,12 +25,86 @@ class MasterProvider extends ChangeNotifier {
 
   DatabaseInstance dbInstance = DatabaseInstance.instance;
 
-  getMaster() {
-// todo here
+  clearText() {
+    cKodeBarang.clear();
+    cBarcode.clear();
+    cNama.clear();
+    cStock.clear();
+    cSatuan.clear();
+    cHargaBeli.clear();
+    cHargaJual.clear();
+    cNamaKategori.clear();
+    idKategori = 0;
   }
 
-  addMaster() {
-// todo here
+  getMaster() async {
+    Database db = await dbInstance.database();
+    var query = 'SELECT * FROM master';
+    List<Map<String, dynamic>> response = await db.rawQuery(query);
+
+    masters.clear();
+    for (var r in response) {
+      masters.add(MasterModel(
+          kodeBarang: r['kd_barang'],
+          barcode: r['barcode'],
+          nama: r['nama'],
+          stock: r['stock'],
+          satuan: r['satuan'],
+          hargaBeli: r['h_beli'],
+          hargaJual: r['h_jual'],
+          idKategori: r['kategori'],
+          createAt: r['create_at'],
+          updateAt: r['update_at']));
+    }
+
+    notifyListeners();
+  }
+
+  addMaster(context) async {
+    if (cKodeBarang.text.isNotEmpty &&
+        cBarcode.text.isNotEmpty &&
+        cNama.text.isNotEmpty &&
+        cStock.text.isNotEmpty &&
+        cSatuan.text.isNotEmpty &&
+        cHargaBeli.text.isNotEmpty &&
+        cHargaJual.text.isNotEmpty) {
+      String kodeBarang = cKodeBarang.text;
+      String barcode = cBarcode.text;
+      String nama = cNama.text;
+      int stock = int.parse(cStock.text);
+      String satuan = cSatuan.text;
+      int hargaBeli = int.parse(cHargaBeli.text);
+      int hargaJual = int.parse(cHargaJual.text);
+
+      try {
+        Database db = await dbInstance.database();
+        var query =
+            'INSERT INTO master(kd_barang,barcode,nama,stock,satuan,h_beli,h_jual,kategori) VALUES("$kodeBarang","$barcode","$nama",$stock,"$satuan",$hargaBeli,$hargaJual,$idKategori)';
+        await db.rawInsert(query);
+        customSnackbar(
+          context,
+          'Berhasil menambah $nama !',
+          Colors.green,
+          const Duration(seconds: 2),
+        );
+        getMaster();
+      } catch (e) {
+        customSnackbar(
+          context,
+          'gagal menyimpan $e',
+          Colors.red,
+          const Duration(seconds: 2),
+        );
+      }
+    } else {
+      customSnackbar(
+        context,
+        'salah satu form masih kosong!',
+        Colors.red,
+        const Duration(seconds: 2),
+      );
+    }
+    notifyListeners();
   }
 
   updateMaster() {

@@ -93,7 +93,7 @@ class UsersProvider extends ChangeNotifier {
     //
   }
 
-  addUser(BuildContext context) async {
+  addUser(context) async {
     bool validatePassword = validation();
     user = cUser.text.toUpperCase();
     password = cPassword.text;
@@ -104,8 +104,7 @@ class UsersProvider extends ChangeNotifier {
         var query =
             'INSERT INTO users (user,password,level) VALUES ("$user","$password",$idLevel)';
         await db.rawInsert(query);
-        // ignore: use_build_context_synchronously
-        if (!context.mounted) return;
+
         customSnackbar(
           context,
           'Sucess add new user : $user',

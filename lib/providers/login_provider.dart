@@ -17,7 +17,7 @@ class LoginProvider extends ChangeNotifier {
 
   DatabaseInstance dbInstance = DatabaseInstance.instance;
 
-  void login(BuildContext context) async {
+  void login(context) async {
     bool bypassMatel = bypass();
     if (bypassMatel) {
       debugPrint('navigator ke menu utama');
@@ -34,8 +34,6 @@ class LoginProvider extends ChangeNotifier {
         pass = response[0]['password'];
       }
       if (cIdUser.text == user && cPassword.text == pass) {
-        // ignore: use_build_context_synchronously
-        if (!context.mounted) return;
         Navigator.pushReplacementNamed(context, '/menu');
         clearForm();
         customSnackbar(
@@ -45,7 +43,12 @@ class LoginProvider extends ChangeNotifier {
           const Duration(seconds: 3),
         );
       } else {
-        debugPrint('username / password wrong');
+        customSnackbar(
+          context,
+          'Username atau password Salah',
+          Colors.yellow,
+          const Duration(seconds: 3),
+        );
       }
     }
 

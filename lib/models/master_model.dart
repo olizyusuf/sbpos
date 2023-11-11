@@ -2,10 +2,10 @@ class MasterModel {
   String? kodeBarang;
   String? barcode;
   String? nama;
-  double? stock;
+  int? stock;
   String? satuan;
-  double? hargaBeli;
-  double? hargaJual;
+  int? hargaBeli;
+  int? hargaJual;
   int? idKategori;
   String? createAt;
   String? updateAt;
