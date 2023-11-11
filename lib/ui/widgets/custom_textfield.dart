@@ -7,7 +7,7 @@ class CustomTextfield extends StatelessWidget {
     this.readOnly = false,
     this.obscureText = false,
     required this.labelText,
-    required this.prefIcon,
+    this.prefIcon,
     required this.colorBorder,
     required this.widthBorder,
     required this.circuralBoder,
@@ -18,7 +18,7 @@ class CustomTextfield extends StatelessWidget {
   final bool readOnly;
   final String labelText;
   final bool obscureText;
-  final Icon prefIcon;
+  final Icon? prefIcon;
   final Color colorBorder;
   final double widthBorder;
   final double circuralBoder;
