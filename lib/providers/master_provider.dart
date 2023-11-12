@@ -107,13 +107,17 @@ class MasterProvider extends ChangeNotifier {
         var query =
             'INSERT INTO master(kd_barang,barcode,nama,stock,satuan,h_beli,h_jual,kategori) VALUES("$kodeBarang","$barcode","$nama",$stock,"$satuan",$hargaBeli,$hargaJual,$idKategori)';
         await db.rawInsert(query);
+
         customSnackbar(
           context,
           'Berhasil menambah $nama !',
           Colors.green,
           const Duration(seconds: 2),
         );
+
         getMaster();
+        clearText();
+        Navigator.pop(context);
       } catch (e) {
         customSnackbar(
           context,
@@ -133,8 +137,55 @@ class MasterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateMaster() {
-// todo here
+  updateMaster(context) async {
+    if (cKodeBarang.text.isNotEmpty &&
+        cBarcode.text.isNotEmpty &&
+        cNama.text.isNotEmpty &&
+        cStock.text.isNotEmpty &&
+        cSatuan.text.isNotEmpty &&
+        cHargaBeli.text.isNotEmpty &&
+        cHargaJual.text.isNotEmpty) {
+      String kodeBarang = cKodeBarang.text;
+      String barcode = cBarcode.text;
+      String nama = cNama.text.toUpperCase();
+      int stock = int.parse(cStock.text);
+      String satuan = cSatuan.text.toUpperCase();
+      int hargaBeli = int.parse(cHargaBeli.text);
+      int hargaJual = int.parse(cHargaJual.text);
+
+      try {
+        Database db = await dbInstance.database();
+        var query =
+            'UPDATE master SET barcode="$barcode",nama="$nama",stock=$stock,satuan="$satuan",h_beli=$hargaBeli,h_jual=$hargaJual,kategori=$idKategori,update_at=CURRENT_TIMESTAMP WHERE kd_barang = "$kodeBarang"';
+        await db.rawUpdate(query);
+
+        customSnackbar(
+          context,
+          'Berhasil update $nama !',
+          Colors.green,
+          const Duration(seconds: 2),
+        );
+
+        getMaster();
+        clearText();
+        Navigator.pop(context);
+      } catch (e) {
+        customSnackbar(
+          context,
+          'gagal update $e',
+          Colors.red,
+          const Duration(seconds: 2),
+        );
+      }
+    } else {
+      customSnackbar(
+        context,
+        'salah satu form masih kosong!',
+        Colors.red,
+        const Duration(seconds: 2),
+      );
+    }
+    notifyListeners();
   }
 
   deleteMaster() {

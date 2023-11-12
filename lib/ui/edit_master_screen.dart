@@ -4,12 +4,12 @@ import 'package:sbpos/providers/master_provider.dart';
 import 'package:sbpos/ui/utils.dart';
 import 'package:sbpos/ui/widgets/custom_textfield.dart';
 
-class AddMasterScreen extends StatelessWidget {
-  const AddMasterScreen({super.key});
+class EditMasterScreen extends StatelessWidget {
+  const EditMasterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String title = 'Tambah master data';
+    String title = 'Edit master data';
 
     MasterProvider masterProv =
         Provider.of<MasterProvider>(context, listen: false);
@@ -36,6 +36,7 @@ class AddMasterScreen extends StatelessWidget {
                   colorBorder: Colors.blue,
                   widthBorder: 1,
                   circuralBoder: 5,
+                  readOnly: true,
                 ),
                 const SizedBox(
                   height: 10,
@@ -206,6 +207,7 @@ class AddMasterScreen extends StatelessWidget {
                   children: [
                     TextButton(
                       onPressed: () {
+                        masterProv.clearText();
                         Navigator.pop(context);
                       },
                       child: const Text(
@@ -215,9 +217,9 @@ class AddMasterScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        masterProv.addMaster(context);
+                        masterProv.updateMaster(context);
                       },
-                      child: const Text('Simpan'),
+                      child: const Text('Update'),
                     )
                   ],
                 ),

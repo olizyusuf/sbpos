@@ -184,7 +184,18 @@ class MyData extends DataTableSource {
         Row(
           children: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                masterProv.cKodeBarang.text = data.kodeBarang;
+                masterProv.cBarcode.text = data.barcode;
+                masterProv.cNama.text = data.nama;
+                masterProv.cSatuan.text = data.satuan;
+                masterProv.cStock.text = data.stock.toString();
+                masterProv.cHargaBeli.text = data.hargaBeli.toString();
+                masterProv.cHargaJual.text = data.hargaJual.toString();
+                masterProv.cNamaKategori.text = data.namaKategori.toString();
+                masterProv.idKategori = data.idKategori;
+                Navigator.pushNamed(context, '/editMaster');
+              },
               icon: const Icon(
                 Icons.edit,
                 color: Colors.green,
