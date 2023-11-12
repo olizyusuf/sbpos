@@ -15,6 +15,7 @@ class Kategori extends StatelessWidget {
         Provider.of<MasterProvider>(context, listen: false);
 
     masterProv.getKategori();
+    masterProv.cNamaKategori.clear();
 
     return Scaffold(
         appBar: AppBar(
