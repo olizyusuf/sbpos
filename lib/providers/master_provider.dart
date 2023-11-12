@@ -39,7 +39,8 @@ class MasterProvider extends ChangeNotifier {
 
   getMaster() async {
     Database db = await dbInstance.database();
-    var query = 'SELECT * FROM master';
+    var query =
+        'SELECT kd_barang,barcode,master.nama,stock,satuan,h_beli,h_jual,kategori,kategori.nama as nama_kategori,master.create_at,master.update_at FROM master LEFT JOIN kategori ON kategori.id_kategori = master.kategori';
     List<Map<String, dynamic>> response = await db.rawQuery(query);
 
     masters.clear();
@@ -53,6 +54,31 @@ class MasterProvider extends ChangeNotifier {
           hargaBeli: r['h_beli'],
           hargaJual: r['h_jual'],
           idKategori: r['kategori'],
+          namaKategori: r['nama_kategori'],
+          createAt: r['create_at'],
+          updateAt: r['update_at']));
+    }
+
+    notifyListeners();
+  }
+
+  getMasterById(String kodeBarang) async {
+    Database db = await dbInstance.database();
+    var query = 'SELECT * FROM master WHERE kd_barang = $kodeBarang';
+    List<Map<String, dynamic>> response = await db.rawQuery(query);
+
+    masters.clear();
+    for (var r in response) {
+      masters.add(MasterModel(
+          kodeBarang: r['kd_barang'],
+          barcode: r['barcode'],
+          nama: r['nama'],
+          stock: r['stock'],
+          satuan: r['satuan'],
+          hargaBeli: r['h_beli'],
+          hargaJual: r['h_jual'],
+          idKategori: r['kategori'],
+          namaKategori: r['nama_kategori'],
           createAt: r['create_at'],
           updateAt: r['update_at']));
     }
@@ -70,9 +96,9 @@ class MasterProvider extends ChangeNotifier {
         cHargaJual.text.isNotEmpty) {
       String kodeBarang = cKodeBarang.text;
       String barcode = cBarcode.text;
-      String nama = cNama.text;
+      String nama = cNama.text.toUpperCase();
       int stock = int.parse(cStock.text);
-      String satuan = cSatuan.text;
+      String satuan = cSatuan.text.toUpperCase();
       int hargaBeli = int.parse(cHargaBeli.text);
       int hargaJual = int.parse(cHargaJual.text);
 

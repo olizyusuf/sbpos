@@ -7,6 +7,7 @@ class MasterModel {
   int? hargaBeli;
   int? hargaJual;
   int? idKategori;
+  String? namaKategori;
   String? createAt;
   String? updateAt;
 
@@ -19,6 +20,7 @@ class MasterModel {
     required this.hargaBeli,
     required this.hargaJual,
     required this.idKategori,
+    required this.namaKategori,
     required this.createAt,
     required this.updateAt,
   });

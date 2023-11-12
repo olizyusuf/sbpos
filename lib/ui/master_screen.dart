@@ -56,71 +56,82 @@ class MasterScreen extends StatelessWidget {
             Consumer<MasterProvider>(
               builder: (context, value, child) {
                 return Expanded(
-                  child: SingleChildScrollView(
-                    child: PaginatedDataTable(
-                      columnSpacing: 40,
-                      horizontalMargin: 10,
-                      rowsPerPage: pageSize,
-                      // availableRowsPerPage: const [7, 14, 25],
-                      // onRowsPerPageChanged: (value) {
-                      //   pageSize = value!;
-                      //   debugPrint(value.toString());
-                      // },
-                      columns: const [
-                        DataColumn(
-                          label: Text(
-                            'Kode Barang',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                  child: masterProv.masters.isEmpty
+                      ? const Center(
+                          child: Text('Data masih Kosong'),
+                        )
+                      : SingleChildScrollView(
+                          child: PaginatedDataTable(
+                            columnSpacing: 40,
+                            horizontalMargin: 10,
+                            rowsPerPage: pageSize,
+                            // availableRowsPerPage: const [7, 14, 25],
+                            // onRowsPerPageChanged: (value) {
+                            //   pageSize = value!;
+                            //   debugPrint(value.toString());
+                            // },
+                            columns: const [
+                              DataColumn(
+                                label: Text(
+                                  'Kode Barang',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Barcode',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Nama',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Satuan',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Stock',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Harga Beli',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Harga Jual',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Kategori',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  'Action',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                            source: MyData(
+                                masterData: value.masters, context: context),
                           ),
                         ),
-                        DataColumn(
-                          label: Text(
-                            'Barcode',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Nama',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Satuan',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Stock',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Harga Beli',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Harga Jual',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Action',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                      source: MyData(masterData: value.masters),
-                    ),
-                  ),
                 );
               },
             )
@@ -132,13 +143,16 @@ class MasterScreen extends StatelessWidget {
 }
 
 class MyData extends DataTableSource {
+  final BuildContext context;
   final List masterData;
 
-  MyData({required this.masterData});
+  MyData({required this.masterData, required this.context});
 
   @override
   DataRow? getRow(int index) {
     var data = masterData[index];
+    MasterProvider masterProv =
+        Provider.of<MasterProvider>(context, listen: false);
     return DataRow(cells: [
       DataCell(
         Text(data.kodeBarang.toString()),
@@ -162,6 +176,9 @@ class MyData extends DataTableSource {
       ),
       DataCell(
         Text(data.hargaJual.toString()),
+      ),
+      DataCell(
+        Text(data.namaKategori.toString()),
       ),
       DataCell(
         Row(

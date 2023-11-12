@@ -60,15 +60,15 @@ class DatabaseInstance {
       "kd_barang"	TEXT NOT NULL,
       "barcode"	TEXT NOT NULL,
       "nama"	TEXT NOT NULL,
-      "stock"	NUMERIC NOT NULL,
+      "stock"	INTEGER NOT NULL DEFAULT 0,
       "satuan"	TEXT NOT NULL,
-      "h_beli"	NUMERIC NOT NULL,
-      "h_jual"	NUMERIC NOT NULL,
+      "h_beli"	INTEGER NOT NULL,
+      "h_jual"	INTEGER NOT NULL,
       "kategori"	INTEGER NOT NULL,
       "create_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
       "update_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
       PRIMARY KEY("kd_barang"),
-      FOREIGN KEY("kategori") REFERENCES kategori("id_kategori")
+      FOREIGN KEY("kategori") REFERENCES kategori("id_kategori") ON UPDATE CASCADE
       );
     ''');
   }
