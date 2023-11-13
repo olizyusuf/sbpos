@@ -23,6 +23,8 @@ class MasterProvider extends ChangeNotifier {
   TextEditingController cIdKategori = TextEditingController();
   TextEditingController cNamaKategori = TextEditingController();
 
+  TextEditingController cSearch = TextEditingController();
+
   DatabaseInstance dbInstance = DatabaseInstance.instance;
 
   clearText() {
@@ -40,7 +42,7 @@ class MasterProvider extends ChangeNotifier {
   getMaster() async {
     Database db = await dbInstance.database();
     var query =
-        'SELECT kd_barang,barcode,master.nama,stock,satuan,h_beli,h_jual,kategori,kategori.nama as nama_kategori,master.create_at,master.update_at FROM master LEFT JOIN kategori ON kategori.id_kategori = master.kategori';
+        'SELECT kd_barang,barcode,master.nama,stock,satuan,harga_beli,harga_jual,kategori,kategori.nama as nama_kategori,master.create_at,master.update_at FROM master LEFT JOIN kategori ON kategori.id_kategori = master.kategori';
     List<Map<String, dynamic>> response = await db.rawQuery(query);
 
     masters.clear();
@@ -51,14 +53,13 @@ class MasterProvider extends ChangeNotifier {
           nama: r['nama'],
           stock: r['stock'],
           satuan: r['satuan'],
-          hargaBeli: r['h_beli'],
-          hargaJual: r['h_jual'],
+          hargaBeli: r['harga_beli'],
+          hargaJual: r['harga_jual'],
           idKategori: r['kategori'],
           namaKategori: r['nama_kategori'],
           createAt: r['create_at'],
           updateAt: r['update_at']));
     }
-
     notifyListeners();
   }
 
@@ -75,15 +76,48 @@ class MasterProvider extends ChangeNotifier {
           nama: r['nama'],
           stock: r['stock'],
           satuan: r['satuan'],
-          hargaBeli: r['h_beli'],
-          hargaJual: r['h_jual'],
+          hargaBeli: r['harga_beli'],
+          hargaJual: r['harga_jual'],
           idKategori: r['kategori'],
           namaKategori: r['nama_kategori'],
           createAt: r['create_at'],
           updateAt: r['update_at']));
     }
-
     notifyListeners();
+  }
+
+  getMasterByKeyword() async {
+    if (cSearch.text.isEmpty) {
+      getMaster();
+    } else {
+      try {
+        String cari = cSearch.text;
+        Database db = await dbInstance.database();
+        var query =
+            'SELECT kd_barang,barcode,master.nama,stock,satuan,harga_beli,harga_jual,kategori,kategori.nama as nama_kategori,master.create_at,master.update_at FROM master LEFT JOIN kategori ON kategori.id_kategori = master.kategori WHERE master.nama like "%$cari%" OR master.kd_barang like "%$cari%"';
+        List<Map<String, dynamic>> response = await db.rawQuery(query);
+
+        masters.clear();
+        for (var r in response) {
+          masters.add(MasterModel(
+              kodeBarang: r['kd_barang'],
+              barcode: r['barcode'],
+              nama: r['nama'],
+              stock: r['stock'],
+              satuan: r['satuan'],
+              hargaBeli: r['harga_beli'],
+              hargaJual: r['harga_jual'],
+              idKategori: r['kategori'],
+              namaKategori: r['nama_kategori'],
+              createAt: r['create_at'],
+              updateAt: r['update_at']));
+        }
+        cSearch.clear();
+        notifyListeners();
+      } catch (e) {
+        debugPrint('$e');
+      }
+    }
   }
 
   addMaster(context) async {
@@ -105,7 +139,7 @@ class MasterProvider extends ChangeNotifier {
       try {
         Database db = await dbInstance.database();
         var query =
-            'INSERT INTO master(kd_barang,barcode,nama,stock,satuan,h_beli,h_jual,kategori) VALUES("$kodeBarang","$barcode","$nama",$stock,"$satuan",$hargaBeli,$hargaJual,$idKategori)';
+            'INSERT INTO master(kd_barang,barcode,nama,stock,satuan,harga_beli,harga_jual,kategori) VALUES("$kodeBarang","$barcode","$nama",$stock,"$satuan",$hargaBeli,$hargaJual,$idKategori)';
         await db.rawInsert(query);
 
         customSnackbar(
@@ -118,6 +152,7 @@ class MasterProvider extends ChangeNotifier {
         getMaster();
         clearText();
         Navigator.pop(context);
+        notifyListeners();
       } catch (e) {
         customSnackbar(
           context,
@@ -134,7 +169,6 @@ class MasterProvider extends ChangeNotifier {
         const Duration(seconds: 2),
       );
     }
-    notifyListeners();
   }
 
   updateMaster(context) async {
@@ -156,7 +190,7 @@ class MasterProvider extends ChangeNotifier {
       try {
         Database db = await dbInstance.database();
         var query =
-            'UPDATE master SET barcode="$barcode",nama="$nama",stock=$stock,satuan="$satuan",h_beli=$hargaBeli,h_jual=$hargaJual,kategori=$idKategori,update_at=CURRENT_TIMESTAMP WHERE kd_barang = "$kodeBarang"';
+            'UPDATE master SET barcode="$barcode",nama="$nama",stock=$stock,satuan="$satuan",harga_beli=$hargaBeli,harga_jual=$hargaJual,kategori=$idKategori,update_at=CURRENT_TIMESTAMP WHERE kd_barang = "$kodeBarang"';
         await db.rawUpdate(query);
 
         customSnackbar(

@@ -15,8 +15,6 @@ class MasterScreen extends StatelessWidget {
     MasterProvider masterProv =
         Provider.of<MasterProvider>(context, listen: false);
 
-    masterProv.getMaster();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -47,7 +45,40 @@ class MasterScreen extends StatelessWidget {
                     child: const Text('Tambah'),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Search'),
+                            content: TextField(
+                              controller: masterProv.cSearch,
+                              decoration: const InputDecoration(
+                                  hintText:
+                                      'masukan kode barang atau nama cth: 11111 atau mie'),
+                            ),
+                            alignment: Alignment.center,
+                            actionsAlignment: MainAxisAlignment.center,
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  masterProv.getMaster();
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Tampilan Semua'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  masterProv.getMasterByKeyword();
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Cari'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                     child: const Text('Search'),
                   )
                 ],
@@ -56,7 +87,7 @@ class MasterScreen extends StatelessWidget {
             Consumer<MasterProvider>(
               builder: (context, value, child) {
                 return Expanded(
-                  child: masterProv.masters.isEmpty
+                  child: value.masters.isEmpty
                       ? const Center(
                           child: Text('Data masih Kosong'),
                         )
