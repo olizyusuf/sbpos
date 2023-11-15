@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sbpos/providers/login_provider.dart';
+import 'package:sbpos/providers/master_provider.dart';
 import 'package:sbpos/ui/utils.dart';
 import 'package:sbpos/ui/widgets/custom_card.dart';
 
@@ -13,6 +14,8 @@ class MenuScreen extends StatelessWidget {
 
     LoginProvider loginProvider =
         Provider.of<LoginProvider>(context, listen: false);
+    MasterProvider masterProv =
+        Provider.of<MasterProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -85,11 +88,24 @@ class MenuScreen extends StatelessWidget {
                     CustomCard(
                       titleCard: 'Master',
                       iconCard: const Icon(
+                        Icons.add_shopping_cart_sharp,
+                        size: 70,
+                        color: Colors.blue,
+                      ),
+                      onTapCallback: () {
+                        masterProv.getMaster();
+                        Navigator.pushNamed(context, '/penjualan');
+                      },
+                    ),
+                    CustomCard(
+                      titleCard: 'Master',
+                      iconCard: const Icon(
                         Icons.inventory_2_rounded,
                         size: 70,
                         color: Colors.blue,
                       ),
                       onTapCallback: () {
+                        masterProv.getMaster();
                         Navigator.pushNamed(context, '/master');
                       },
                     ),
