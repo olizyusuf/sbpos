@@ -233,7 +233,39 @@ class MyData extends DataTableSource {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text('Hapus'),
+                      content: Text(
+                          'Apakah yakin \n${data.kodeBarang}\n${data.nama}\ndihapus?!'),
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                          },
+                          child: const Text('Ya'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, false);
+                          },
+                          child: const Text('Batal'),
+                        )
+                      ],
+                    );
+                  },
+                ).then(
+                  (v) {
+                    if (v) {
+                      masterProv.deleteMaster(
+                          context, data.kodeBarang.toString());
+                    }
+                  },
+                );
+              },
               icon: const Icon(
                 Icons.remove_circle_outlined,
                 color: Colors.red,

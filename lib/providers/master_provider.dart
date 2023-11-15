@@ -222,8 +222,22 @@ class MasterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteMaster() {
-// todo here
+  deleteMaster(context, String kodeBarang) async {
+    try {
+      Database db = await dbInstance.database();
+      var query = 'DELETE FROM master WHERE kd_barang = "$kodeBarang"';
+      await db.rawDelete(query);
+      customSnackbar(context, '$kodeBarang berhasil berhasil dihapus!',
+          Colors.green, const Duration(seconds: 2));
+      getMaster();
+      notifyListeners();
+    } catch (e) {
+      customSnackbar(
+          context,
+          'Gagal/tidak bisa dihapus sebelum data barang dihapus.',
+          Colors.red,
+          const Duration(seconds: 2));
+    }
   }
 
   getKategori() async {
