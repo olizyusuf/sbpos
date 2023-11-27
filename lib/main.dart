@@ -12,6 +12,7 @@ import 'package:sbpos/ui/level_screen.dart';
 import 'package:sbpos/ui/login_screen.dart';
 import 'package:sbpos/ui/master_screen.dart';
 import 'package:sbpos/ui/menu_screen.dart';
+import 'package:sbpos/ui/penjualan_screen.dart';
 import 'package:sbpos/ui/users_screen.dart';
 
 void main() {
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
           '/addMaster': (context) => const AddMasterScreen(),
           '/editMaster': (context) => const EditMasterScreen(),
           '/kategori': (context) => const Kategori(),
+          '/penjualan': (context) => const PenjualanScreen(),
         },
       ),
     );

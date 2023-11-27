@@ -86,7 +86,7 @@ class MenuScreen extends StatelessWidget {
                   crossAxisCount: 3,
                   children: [
                     CustomCard(
-                      titleCard: 'Master',
+                      titleCard: 'Penjualan',
                       iconCard: const Icon(
                         Icons.add_shopping_cart_sharp,
                         size: 70,
