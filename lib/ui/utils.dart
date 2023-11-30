@@ -10,6 +10,14 @@ double displayHeight(BuildContext context) {
   return displaySize(context).height;
 }
 
+double displayHeightBody(BuildContext context) {
+  double displayBodyHeight = displaySize(context).height -
+      AppBar().preferredSize.height -
+      MediaQuery.of(context).padding.top;
+  // debugPrint(displayBodyHeight.toString());
+  return displayBodyHeight;
+}
+
 double displayWidth(BuildContext context) {
   //debugPrint('width = ${displaySize(context).width}');
   return displaySize(context).width;
