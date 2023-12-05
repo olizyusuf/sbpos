@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+String numToIdr(dynamic number) {
+  NumberFormat currencyFormatter =
+      NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: 0);
+  String toIdr = currencyFormatter.format(number);
+  return toIdr;
+}
 
 Size displaySize(BuildContext context) {
   //debugPrint('Size = ${MediaQuery.of(context).size}');

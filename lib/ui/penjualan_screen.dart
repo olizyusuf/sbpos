@@ -7,6 +7,11 @@ class PenjualanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String title = "Penjualan";
+
+    int qty = 20;
+    int price = 10000;
+    int subtotal = qty * price;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -21,7 +26,7 @@ class PenjualanScreen extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 5),
                 width: displayWidth(context),
                 height: displayHeight(context) * 0.06,
-                child: TextField(
+                child: const TextField(
                   decoration: InputDecoration(
                       hintText: "Cari atau scan kode barang disini..."),
                 ),
@@ -35,7 +40,7 @@ class PenjualanScreen extends StatelessWidget {
                     return Container(
                       padding: const EdgeInsets.only(left: 5, right: 5),
                       color: index % 2 == 0 ? Colors.white : Colors.grey[200],
-                      height: 30,
+                      height: 40,
                       child: Row(
                         children: [
                           SizedBox(
@@ -52,19 +57,19 @@ class PenjualanScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   "Nama Barang Disini",
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(fontSize: 14),
                                 ),
                                 Row(
                                   children: [
                                     Text(
-                                      "20 x  ",
-                                      style: TextStyle(fontSize: 12),
+                                      "$qty x ",
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                     Text(
-                                      "20000",
-                                      style: TextStyle(fontSize: 12),
+                                      numToIdr(price),
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                   ],
                                 ),
@@ -73,10 +78,14 @@ class PenjualanScreen extends StatelessWidget {
                           ),
                           SizedBox(
                             width: displayWidth(context) * 0.2,
-                            child: Text("4000000"),
+                            child: Text(numToIdr(subtotal),
+                                style: const TextStyle(fontSize: 14)),
                           ),
                           Expanded(
-                            child: Icon(Icons.remove_circle_outline),
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.delete),
+                            ),
                           )
                         ],
                       ),
@@ -95,9 +104,9 @@ class PenjualanScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Subtotal: 18000000"),
-                            Text("Diskon: 45000"),
-                            Text("PPN 11%: 80000")
+                            Text("Subtotal: ${numToIdr(8000000)}"),
+                            Text("Diskon: ${numToIdr(40000)}"),
+                            Text("PPN 11%: ${numToIdr(98400)}")
                           ],
                         ),
                       ),
@@ -109,28 +118,13 @@ class PenjualanScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                "Total : 8000000",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Bayar: ",
-                                  ),
-                                  SizedBox(
-                                    height: 25,
-                                    width: 100,
-                                    child: TextField(
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ),
-                                ],
+                                "Total : ${numToIdr(90000000)}",
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
                                 width: 150,
-                                height: 30,
+                                height: 45,
                                 child: ElevatedButton(
                                     onPressed: () {},
                                     child: const Text("Bayar")),
