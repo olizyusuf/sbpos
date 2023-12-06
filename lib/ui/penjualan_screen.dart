@@ -33,6 +33,7 @@ class PenjualanScreen extends StatelessWidget {
               ),
               Container(
                 color: Colors.grey[100],
+                padding: const EdgeInsets.only(left: 5, right: 10),
                 height: displayHeight(context) * 0.65,
                 child: ListView.builder(
                   itemCount: 20,
