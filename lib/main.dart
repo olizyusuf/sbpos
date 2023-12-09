@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sbpos/providers/login_provider.dart';
 import 'package:sbpos/providers/master_provider.dart';
+import 'package:sbpos/providers/penjualan_provider.dart';
 import 'package:sbpos/providers/users_provider.dart';
 import 'package:sbpos/ui/add_master_screen.dart';
 import 'package:sbpos/ui/add_user_screen.dart';
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => MasterProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PenjualanProvider(),
         ),
       ],
       child: MaterialApp(

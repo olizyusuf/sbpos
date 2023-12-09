@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sbpos/providers/penjualan_provider.dart';
 import 'package:sbpos/ui/utils.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class PenjualanScreen extends StatelessWidget {
   const PenjualanScreen({super.key});
@@ -8,9 +11,8 @@ class PenjualanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     String title = "Penjualan";
 
-    int qty = 20;
-    int price = 10000;
-    int subtotal = qty * price;
+    PenjualanProvider penjualanProv =
+        Provider.of<PenjualanProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -26,76 +28,129 @@ class PenjualanScreen extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 5),
                 width: displayWidth(context),
                 height: displayHeight(context) * 0.06,
-                child: const TextField(
-                  decoration: InputDecoration(
-                      hintText: "Cari atau scan kode barang disini..."),
-                ),
-              ),
-              Container(
-                color: Colors.grey[100],
-                padding: const EdgeInsets.only(left: 5, right: 10),
-                height: displayHeight(context) * 0.65,
-                child: ListView.builder(
-                  itemCount: 20,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: const EdgeInsets.only(left: 5, right: 5),
-                      color: index % 2 == 0 ? Colors.white : Colors.grey[200],
-                      height: 40,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: displayWidth(context) * 0.05,
-                            child: Text(
-                              "${index + 1} ",
-                              style: TextStyle(
-                                  fontSize: 12, color: Colors.grey[500]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: displayWidth(context) * 0.6,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Nama Barang Disini",
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "$qty x ",
-                                      style: const TextStyle(fontSize: 14),
-                                    ),
-                                    Text(
-                                      numToIdr(price),
-                                      style: const TextStyle(fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: displayWidth(context) * 0.2,
-                            child: Text(numToIdr(subtotal),
-                                style: const TextStyle(fontSize: 14)),
-                          ),
-                          Expanded(
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.delete),
-                            ),
-                          )
-                        ],
+                child: TypeAheadField<Map<String, dynamic>>(
+                  textFieldConfiguration: TextFieldConfiguration(
+                    autofocus: false,
+                    controller: penjualanProv.cCariKodeBarang,
+                    decoration: InputDecoration(
+                      hintText: 'Cari Kode / Nama Item',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.barcode_reader),
+                        onPressed: () {
+                          debugPrint('Scan Barcode');
+                        },
                       ),
+                    ),
+                  ),
+                  suggestionsCallback: (pattern) async =>
+                      await penjualanProv.getDataMaster(pattern),
+                  itemBuilder: (context, Map<String, dynamic> suggestion) {
+                    return ListTile(
+                      title: Text(suggestion['kd_barang']),
+                      subtitle: Text(
+                        suggestion['nama'],
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      trailing: Text(numToIdr(suggestion['harga_jual']),
+                          style: const TextStyle(fontSize: 18)),
                     );
                   },
+                  itemSeparatorBuilder: (context, index) =>
+                      const Divider(height: 1),
+                  onSuggestionSelected: (suggestion) {
+                    penjualanProv.addToTempPenjualan(suggestion['kd_barang']);
+                  },
+                  suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    elevation: 8.0,
+                    color: Theme.of(context).cardColor,
+                  ),
                 ),
               ),
-              Expanded(
-                child: Container(
+              Consumer<PenjualanProvider>(
+                builder: (context, value, child) {
+                  return Container(
+                      color: Colors.grey[100],
+                      padding: const EdgeInsets.only(left: 5, right: 10),
+                      height: displayHeight(context) * 0.65,
+                      child: value.tempPenjualan.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: value.tempPenjualan.length,
+                              itemBuilder: (context, index) {
+                                var data = value.tempPenjualan[index];
+                                return Container(
+                                  padding:
+                                      const EdgeInsets.only(left: 5, right: 5),
+                                  color: index % 2 == 0
+                                      ? Colors.white
+                                      : Colors.grey[200],
+                                  height: 40,
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: displayWidth(context) * 0.05,
+                                        child: Text(
+                                          "${index + 1} ",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey[500]),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: displayWidth(context) * 0.6,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              data['nama'].toString(),
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "1 x ",
+                                                  style: const TextStyle(
+                                                      fontSize: 14),
+                                                ),
+                                                Text(
+                                                  numToIdr(data['harga_jual']),
+                                                  style: const TextStyle(
+                                                      fontSize: 14),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: displayWidth(context) * 0.2,
+                                        child: Text(
+                                            numToIdr(data['harga_jual']),
+                                            style:
+                                                const TextStyle(fontSize: 14)),
+                                      ),
+                                      Expanded(
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(Icons.delete),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          : const Center(
+                              child: Text('Item masih kosong...'),
+                            ));
+                },
+              ),
+              Container(
+                child: Expanded(
                   child: Row(
                     children: [
                       Container(
