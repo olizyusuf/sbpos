@@ -59,6 +59,7 @@ class PenjualanScreen extends StatelessWidget {
                       const Divider(height: 1),
                   onSuggestionSelected: (suggestion) {
                     penjualanProv.addToTempPenjualan(suggestion['kd_barang']);
+                    penjualanProv.cCariKodeBarang.clear();
                   },
                   suggestionsBoxDecoration: SuggestionsBoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -105,19 +106,19 @@ class PenjualanScreen extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              data['nama'].toString(),
+                                              data.nama,
                                               style:
                                                   const TextStyle(fontSize: 14),
                                             ),
                                             Row(
                                               children: [
                                                 Text(
-                                                  "1 x ",
+                                                  "${data.jumlah} x ",
                                                   style: const TextStyle(
                                                       fontSize: 14),
                                                 ),
                                                 Text(
-                                                  numToIdr(data['harga_jual']),
+                                                  numToIdr(data.hargaJual),
                                                   style: const TextStyle(
                                                       fontSize: 14),
                                                 ),
@@ -128,8 +129,7 @@ class PenjualanScreen extends StatelessWidget {
                                       ),
                                       SizedBox(
                                         width: displayWidth(context) * 0.2,
-                                        child: Text(
-                                            numToIdr(data['harga_jual']),
+                                        child: Text(numToIdr(data.subtotal),
                                             style:
                                                 const TextStyle(fontSize: 14)),
                                       ),

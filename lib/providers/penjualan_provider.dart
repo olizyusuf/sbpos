@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sbpos/database/database_instance.dart';
-import 'package:sbpos/models/master_model.dart';
+import 'package:sbpos/models/detail_penjualan_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class PenjualanProvider extends ChangeNotifier {
-  List masters = [];
   List tempPenjualan = [];
 
-  int qty = 1;
   int price = 0;
 
   int? ppn;
@@ -32,16 +30,41 @@ class PenjualanProvider extends ChangeNotifier {
     }
   }
 
-  addToTempPenjualan(String kodeBarang) async {
+  void addToTempPenjualan(String kodeBarang) async {
     Database db = await dbInstance.database();
     var query = 'SELECT * FROM master WHERE kd_barang = $kodeBarang';
     List<Map<String, dynamic>> response = await db.rawQuery(query);
-    debugPrint(response.toString());
+    debugPrint('response database: ' + response.toString());
 
-    bool found = tempPenjualan.any((value) => value['kd_barang'] == kodeBarang);
-    debugPrint(found.toString());
+    bool found = tempPenjualan.any((value) => value.kdBarang == kodeBarang);
+    debugPrint('kode barang sdh ada di temp?:' + found.toString());
 
-    debugPrint(tempPenjualan.length.toString());
+    if (found) {
+      int index =
+          tempPenjualan.indexWhere((element) => element.kdBarang == kodeBarang);
+      tempPenjualan[index].jumlah += 1;
+      tempPenjualan[index].subtotal =
+          tempPenjualan[index].jumlah * tempPenjualan[index].hargaJual;
+    } else {
+      for (var r in response) {
+        debugPrint(r.toString());
+        int jmlh = 1;
+        int subttl = r['harga_jual'] * jmlh;
+        tempPenjualan.add(DetailPenjualanModel(
+            idDetailPenjualan: 1,
+            idPenjualan: '10001',
+            kdBarang: r['kd_barang'],
+            nama: r['nama'],
+            hargaJual: r['harga_jual'],
+            jumlah: jmlh,
+            diskon: 0,
+            subtotal: subttl,
+            createAt: r['create_at'],
+            updateAt: r['update_at']));
+      }
+    }
+
+    debugPrint('jumlah data temp: ' + tempPenjualan.length.toString());
     notifyListeners();
   }
 }
