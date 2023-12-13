@@ -32,6 +32,9 @@ class PenjualanScreen extends StatelessWidget {
                   textFieldConfiguration: TextFieldConfiguration(
                     autofocus: false,
                     controller: penjualanProv.cCariKodeBarang,
+                    onSubmitted: (value) {
+                      penjualanProv.checkItem(context, value);
+                    },
                     decoration: InputDecoration(
                       hintText: 'Cari Kode / Nama Item',
                       suffixIcon: IconButton(
@@ -68,13 +71,13 @@ class PenjualanScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Consumer<PenjualanProvider>(
-                builder: (context, value, child) {
-                  return Container(
-                      color: Colors.grey[100],
-                      padding: const EdgeInsets.only(left: 5, right: 10),
-                      height: displayHeight(context) * 0.65,
-                      child: value.tempPenjualan.isNotEmpty
+              Container(
+                  color: Colors.grey[100],
+                  padding: const EdgeInsets.only(left: 5, right: 10),
+                  height: displayHeight(context) * 0.65,
+                  child: Consumer<PenjualanProvider>(
+                    builder: (context, value, child) {
+                      return value.tempPenjualan.isNotEmpty
                           ? ListView.builder(
                               itemCount: value.tempPenjualan.length,
                               itemBuilder: (context, index) {
@@ -146,9 +149,9 @@ class PenjualanScreen extends StatelessWidget {
                             )
                           : const Center(
                               child: Text('Item masih kosong...'),
-                            ));
-                },
-              ),
+                            );
+                    },
+                  )),
               Container(
                 child: Expanded(
                   child: Row(

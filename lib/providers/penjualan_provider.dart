@@ -34,10 +34,10 @@ class PenjualanProvider extends ChangeNotifier {
     Database db = await dbInstance.database();
     var query = 'SELECT * FROM master WHERE kd_barang = $kodeBarang';
     List<Map<String, dynamic>> response = await db.rawQuery(query);
-    debugPrint('response database: ' + response.toString());
+    //debugPrint('response database: ' + response.toString());
 
     bool found = tempPenjualan.any((value) => value.kdBarang == kodeBarang);
-    debugPrint('kode barang sdh ada di temp?:' + found.toString());
+    //debugPrint('kode barang sdh ada di temp?:' + found.toString());
 
     if (found) {
       int index =
@@ -66,5 +66,31 @@ class PenjualanProvider extends ChangeNotifier {
 
     debugPrint('jumlah data temp: ' + tempPenjualan.length.toString());
     notifyListeners();
+  }
+
+  void checkItem(context, String kodeBarang) async {
+    Database db = await dbInstance.database();
+    var query = 'SELECT * FROM master WHERE kd_barang = $kodeBarang';
+    List<Map<String, dynamic>> response = await db.rawQuery(query);
+    if (response.isNotEmpty) {
+      addToTempPenjualan(kodeBarang);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text('Item kode $kodeBarang tidak ditemukan'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'))
+            ],
+          );
+        },
+      );
+    }
+    cCariKodeBarang.clear();
   }
 }
