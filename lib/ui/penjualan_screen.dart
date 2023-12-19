@@ -100,34 +100,74 @@ class PenjualanScreen extends StatelessWidget {
                                               color: Colors.grey[500]),
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: displayWidth(context) * 0.6,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              data.nama,
-                                              style:
-                                                  const TextStyle(fontSize: 14),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "${data.jumlah} x ",
-                                                  style: const TextStyle(
-                                                      fontSize: 14),
-                                                ),
-                                                Text(
-                                                  numToIdr(data.hargaJual),
-                                                  style: const TextStyle(
-                                                      fontSize: 14),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                      InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return SimpleDialog(
+                                                title: const Text("Jumlah"),
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          value.adjustJumlah(
+                                                              data.kdBarang,
+                                                              "+");
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.add),
+                                                      ),
+                                                      Text(" ${data.jumlah} "),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          value.adjustJumlah(
+                                                              data.kdBarang,
+                                                              "-");
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.remove),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: SizedBox(
+                                          width: displayWidth(context) * 0.6,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                data.nama,
+                                                style: const TextStyle(
+                                                    fontSize: 14),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "${data.jumlah} x ",
+                                                    style: const TextStyle(
+                                                        fontSize: 14),
+                                                  ),
+                                                  Text(
+                                                    numToIdr(data.hargaJual),
+                                                    style: const TextStyle(
+                                                        fontSize: 14),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       SizedBox(
@@ -157,18 +197,21 @@ class PenjualanScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(5),
-                        width: displayWidth(context) * 0.4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Subtotal: ${numToIdr(8000000)}"),
-                            Text("Diskon: ${numToIdr(40000)}"),
-                            Text("PPN 11%: ${numToIdr(98400)}")
-                          ],
-                        ),
-                      ),
+                          padding: const EdgeInsets.all(5),
+                          width: displayWidth(context) * 0.4,
+                          child: Consumer<PenjualanProvider>(
+                            builder: (context, sub, child) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Subtotal: ${numToIdr(sub.subtotal)}"),
+                                  Text("Diskon: ${numToIdr(sub.potongan)}"),
+                                  Text("PPN 11%: ${numToIdr(sub.ppn)}")
+                                ],
+                              );
+                            },
+                          )),
                       Expanded(
                         child: Container(
                           color: Colors.amber,
@@ -176,10 +219,15 @@ class PenjualanScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(
-                                "Total : ${numToIdr(90000000)}",
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              Consumer<PenjualanProvider>(
+                                builder: (context, ttl, child) {
+                                  return Text(
+                                    "Total : ${numToIdr(ttl.total)}",
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  );
+                                },
                               ),
                               SizedBox(
                                 width: 150,
