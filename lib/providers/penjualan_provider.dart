@@ -7,13 +7,14 @@ class PenjualanProvider extends ChangeNotifier {
   List tempPenjualan = [];
 
   int price = 0;
-
   double ppn = 0;
   double potongan = 0;
   int subtotal = 0;
   double total = 0;
 
   TextEditingController cCariKodeBarang = TextEditingController();
+  TextEditingController cQtyItem = TextEditingController();
+  TextEditingController cDiskonAmount = TextEditingController();
 
   DatabaseInstance dbInstance = DatabaseInstance.instance;
 
@@ -67,48 +68,36 @@ class PenjualanProvider extends ChangeNotifier {
     }
 
     totalTransaksi(0);
-    debugPrint('jumlah data temp: ' + tempPenjualan.length.toString());
     notifyListeners();
   }
 
-  void adjustJumlah(String kodeBarang, String command) {
+  void adjustJumlah(String kodeBarang, int value) {
     bool found = tempPenjualan.any((value) => value.kdBarang == kodeBarang);
     //debugPrint('kode barang sdh ada di temp?:' + found.toString());
 
     int index =
         tempPenjualan.indexWhere((element) => element.kdBarang == kodeBarang);
-    int qty = tempPenjualan[index].jumlah;
+    int qty = int.parse(cQtyItem.text);
 
-    if (found) {
-      if (command == "+" && qty >= 1) {
-        tempPenjualan[index].jumlah += 1;
-      } else if (command == "-" && qty > 1) {
-        tempPenjualan[index].jumlah -= 1;
-      }
-
+    if (found && qty >= 1) {
+      tempPenjualan[index].jumlah = value;
       tempPenjualan[index].subtotal =
           tempPenjualan[index].jumlah * tempPenjualan[index].hargaJual;
     }
 
-    totalTransaksi(0);
-    debugPrint('jumlah data temp: ' + tempPenjualan.length.toString());
+    totalTransaksi(potongan);
     notifyListeners();
   }
 
   void totalTransaksi(double diskon) {
     subtotal = 0;
     total = 0;
-    diskon = 0;
+    potongan = diskon;
     for (var e in tempPenjualan) {
       int sub = e.jumlah * e.hargaJual;
       subtotal += sub;
       ppn = subtotal * 11 / 100;
-      if ("prosen" == "prosen") {
-        potongan = subtotal * 5 / 100;
-      } else if ("nominal" == "nominal") {
-        // diskon = subtotal - 10000;
-      }
-      total = subtotal + ppn - potongan;
+      total = subtotal + ppn - diskon;
     }
     notifyListeners();
   }
@@ -120,7 +109,7 @@ class PenjualanProvider extends ChangeNotifier {
       List<Map<String, dynamic>> response = await db.rawQuery(query);
       if (response.isNotEmpty) {
         addToTempPenjualan(kodeBarang);
-        totalTransaksi(0);
+        totalTransaksi(potongan);
       }
       cCariKodeBarang.clear();
     } catch (e) {

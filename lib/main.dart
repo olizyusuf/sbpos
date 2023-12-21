@@ -17,7 +17,9 @@ import 'package:sbpos/ui/penjualan_screen.dart';
 import 'package:sbpos/ui/users_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {

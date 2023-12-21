@@ -100,41 +100,44 @@ class PenjualanScreen extends StatelessWidget {
                                               color: Colors.grey[500]),
                                         ),
                                       ),
-                                      InkWell(
+                                      GestureDetector(
                                         onTap: () {
                                           showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return SimpleDialog(
+                                              penjualanProv.cQtyItem.text =
+                                                  data.jumlah.toString();
+                                              return AlertDialog(
                                                 title: const Text("Jumlah"),
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          value.adjustJumlah(
+                                                contentPadding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        100, 5, 100, 0),
+                                                content: SizedBox(
+                                                  child: TextField(
+                                                    textAlign: TextAlign.center,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    controller:
+                                                        penjualanProv.cQtyItem,
+                                                  ),
+                                                ),
+                                                actions: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      penjualanProv
+                                                          .adjustJumlah(
                                                               data.kdBarang,
-                                                              "+");
-                                                        },
-                                                        icon: const Icon(
-                                                            Icons.add),
-                                                      ),
-                                                      Text(" ${data.jumlah} "),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          value.adjustJumlah(
-                                                              data.kdBarang,
-                                                              "-");
-                                                        },
-                                                        icon: const Icon(
-                                                            Icons.remove),
-                                                      ),
-                                                    ],
+                                                              int.parse(
+                                                                  penjualanProv
+                                                                      .cQtyItem
+                                                                      .text));
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text("Simpan"),
                                                   ),
                                                 ],
+                                                actionsAlignment:
+                                                    MainAxisAlignment.center,
                                               );
                                             },
                                           );
@@ -206,7 +209,54 @@ class PenjualanScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text("Subtotal: ${numToIdr(sub.subtotal)}"),
-                                  Text("Diskon: ${numToIdr(sub.potongan)}"),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          penjualanProv.cDiskonAmount.text =
+                                              penjualanProv.potongan.toString();
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: const Text("Diskon"),
+                                                contentPadding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        100, 5, 100, 0),
+                                                content: SizedBox(
+                                                  child: TextField(
+                                                    textAlign: TextAlign.center,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    controller: penjualanProv
+                                                        .cDiskonAmount,
+                                                  ),
+                                                ),
+                                                actions: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text("Simpan"),
+                                                  ),
+                                                ],
+                                                actionsAlignment:
+                                                    MainAxisAlignment.center,
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: const Text(
+                                          "Diskon",
+                                          style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Text(" : ${numToIdr(sub.potongan)}"),
+                                    ],
+                                  ),
                                   Text("PPN 11%: ${numToIdr(sub.ppn)}")
                                 ],
                               );
