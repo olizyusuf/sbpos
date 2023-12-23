@@ -6,6 +6,7 @@ import 'package:sqflite/sqflite.dart';
 class PenjualanProvider extends ChangeNotifier {
   List tempPenjualan = [];
 
+  bool prosen = false;
   int price = 0;
   double ppn = 0;
   double potongan = 0;
@@ -67,7 +68,7 @@ class PenjualanProvider extends ChangeNotifier {
       }
     }
 
-    totalTransaksi(0);
+    totalTransaksi();
     notifyListeners();
   }
 
@@ -85,19 +86,28 @@ class PenjualanProvider extends ChangeNotifier {
           tempPenjualan[index].jumlah * tempPenjualan[index].hargaJual;
     }
 
-    totalTransaksi(potongan);
+    totalTransaksi();
     notifyListeners();
   }
 
-  void totalTransaksi(double diskon) {
+  void diskonTotal() {
+    if (prosen) {
+      potongan = subtotal * double.parse(cDiskonAmount.text.toString());
+    } else {
+      potongan = double.parse(cDiskonAmount.text.toString());
+    }
+    totalTransaksi();
+    notifyListeners();
+  }
+
+  void totalTransaksi() {
     subtotal = 0;
     total = 0;
-    potongan = diskon;
     for (var e in tempPenjualan) {
       int sub = e.jumlah * e.hargaJual;
       subtotal += sub;
       ppn = subtotal * 11 / 100;
-      total = subtotal + ppn - diskon;
+      total = subtotal + ppn - potongan;
     }
     notifyListeners();
   }
@@ -109,7 +119,7 @@ class PenjualanProvider extends ChangeNotifier {
       List<Map<String, dynamic>> response = await db.rawQuery(query);
       if (response.isNotEmpty) {
         addToTempPenjualan(kodeBarang);
-        totalTransaksi(potongan);
+        totalTransaksi();
       }
       cCariKodeBarang.clear();
     } catch (e) {

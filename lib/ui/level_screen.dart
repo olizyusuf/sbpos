@@ -84,8 +84,8 @@ class LevelScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                usersProv.addLevel(
-                    usersProv.cLevel.text, usersProv.permission.join(''));
+                usersProv.addLevel(usersProv.cLevel.text.toUpperCase(),
+                    usersProv.permission.join(''));
                 usersProv.cLevel.clear();
               },
               child: const Text('Save'),

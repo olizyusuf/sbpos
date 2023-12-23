@@ -195,103 +195,101 @@ class PenjualanScreen extends StatelessWidget {
                             );
                     },
                   )),
-              Container(
-                child: Expanded(
-                  child: Row(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.all(5),
-                          width: displayWidth(context) * 0.4,
-                          child: Consumer<PenjualanProvider>(
-                            builder: (context, sub, child) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Subtotal: ${numToIdr(sub.subtotal)}"),
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          penjualanProv.cDiskonAmount.text =
-                                              penjualanProv.potongan.toString();
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                title: const Text("Diskon"),
-                                                contentPadding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        100, 5, 100, 0),
-                                                content: SizedBox(
-                                                  child: TextField(
-                                                    textAlign: TextAlign.center,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    controller: penjualanProv
-                                                        .cDiskonAmount,
-                                                  ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                        padding: const EdgeInsets.all(5),
+                        width: displayWidth(context) * 0.4,
+                        child: Consumer<PenjualanProvider>(
+                          builder: (context, sub, child) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Subtotal: ${numToIdr(sub.subtotal)}"),
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: const Text("Diskon"),
+                                              contentPadding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      100, 5, 100, 0),
+                                              content: SizedBox(
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  controller: penjualanProv
+                                                      .cDiskonAmount,
                                                 ),
-                                                actions: [
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text("Simpan"),
-                                                  ),
-                                                ],
-                                                actionsAlignment:
-                                                    MainAxisAlignment.center,
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: const Text(
-                                          "Diskon",
-                                          style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                              ),
+                                              actions: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    penjualanProv.diskonTotal();
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text("Simpan"),
+                                                ),
+                                              ],
+                                              actionsAlignment:
+                                                  MainAxisAlignment.center,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: const Text(
+                                        "Diskon",
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      Text(" : ${numToIdr(sub.potongan)}"),
-                                    ],
-                                  ),
-                                  Text("PPN 11%: ${numToIdr(sub.ppn)}")
-                                ],
-                              );
-                            },
-                          )),
-                      Expanded(
-                        child: Container(
-                          color: Colors.amber,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Consumer<PenjualanProvider>(
-                                builder: (context, ttl, child) {
-                                  return Text(
-                                    "Total : ${numToIdr(ttl.total)}",
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  );
-                                },
+                                    ),
+                                    Text(" : ${numToIdr(sub.potongan)}"),
+                                  ],
+                                ),
+                                Text("PPN 11%: ${numToIdr(sub.ppn)}")
+                              ],
+                            );
+                          },
+                        )),
+                    Expanded(
+                      child: Container(
+                        color: Colors.amber,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Consumer<PenjualanProvider>(
+                              builder: (context, ttl, child) {
+                                return Text(
+                                  "Total : ${numToIdr(ttl.total)}",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                );
+                              },
+                            ),
+                            SizedBox(
+                              width: 150,
+                              height: 45,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const Text("Bayar"),
                               ),
-                              SizedBox(
-                                width: 150,
-                                height: 45,
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text("Bayar")),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               )
             ],
