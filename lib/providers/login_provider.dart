@@ -19,6 +19,8 @@ class LoginProvider extends ChangeNotifier {
 
   void login(context) async {
     bool bypassMatel = bypass();
+    String tempIdUser = cIdUser.text.toUpperCase();
+    String tempPassword = cPassword.text;
     if (bypassMatel) {
       debugPrint('navigator ke menu utama');
       Navigator.pushReplacementNamed(context, '/menu');
@@ -33,7 +35,7 @@ class LoginProvider extends ChangeNotifier {
         user = response[0]['user'];
         pass = response[0]['password'];
       }
-      if (cIdUser.text == user && cPassword.text == pass) {
+      if (tempIdUser == user && tempPassword == pass) {
         Navigator.pushReplacementNamed(context, '/menu');
         clearForm();
         customSnackbar(

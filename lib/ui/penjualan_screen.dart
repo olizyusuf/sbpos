@@ -281,7 +281,227 @@ class PenjualanScreen extends StatelessWidget {
                               width: 150,
                               height: 45,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  penjualanProv.tempPenjualan.isNotEmpty
+                                      ? showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: const Text("Bayar"),
+                                              contentPadding:
+                                                  const EdgeInsets.all(10),
+                                              content: SizedBox(
+                                                height: 200,
+                                                child: Column(
+                                                  children: [
+                                                    TextField(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      controller: penjualanProv
+                                                          .cNominalBayar,
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    const Text('Uang Pas'),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            penjualanProv
+                                                                    .cNominalBayar
+                                                                    .text =
+                                                                5000.toString();
+                                                          },
+                                                          child: const Text(
+                                                              ' 5.000 '),
+                                                        ),
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            penjualanProv
+                                                                    .cNominalBayar
+                                                                    .text =
+                                                                10000
+                                                                    .toString();
+                                                          },
+                                                          child: const Text(
+                                                              ' 10.000 '),
+                                                        ),
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            penjualanProv
+                                                                    .cNominalBayar
+                                                                    .text =
+                                                                20000
+                                                                    .toString();
+                                                          },
+                                                          child: const Text(
+                                                              '20.000'),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            penjualanProv
+                                                                    .cNominalBayar
+                                                                    .text =
+                                                                50000
+                                                                    .toString();
+                                                          },
+                                                          child: const Text(
+                                                              '50.000'),
+                                                        ),
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            penjualanProv
+                                                                    .cNominalBayar
+                                                                    .text =
+                                                                100000
+                                                                    .toString();
+                                                          },
+                                                          child: const Text(
+                                                              '100.000'),
+                                                        ),
+                                                        ElevatedButton(
+                                                          onPressed: () {},
+                                                          child: const Text(
+                                                              'Custom'),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(
+                                                        context, false);
+                                                  },
+                                                  child: const Text('Batal'),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    if (penjualanProv
+                                                        .cNominalBayar
+                                                        .text
+                                                        .isNotEmpty) {
+                                                      penjualanProv.bayar =
+                                                          double.parse(
+                                                              penjualanProv
+                                                                  .cNominalBayar
+                                                                  .text
+                                                                  .toString());
+                                                      penjualanProv.kembali =
+                                                          penjualanProv.total -
+                                                              penjualanProv
+                                                                  .bayar;
+                                                      Navigator.pop(
+                                                          context, true);
+                                                    }
+                                                  },
+                                                  child: const Text("Bayar"),
+                                                ),
+                                              ],
+                                              actionsAlignment:
+                                                  MainAxisAlignment.center,
+                                            );
+                                          },
+                                        ).then(
+                                          (val) {
+                                            try {
+                                              if (val) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          "Pembayaran Berhasil"),
+                                                      content: SizedBox(
+                                                        height: 100,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              'Total: Rp. ${numToIdr(penjualanProv.total)}',
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              'Bayar: Rp. ${numToIdr(penjualanProv.bayar)}',
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              'Kembali: Rp. ${numToIdr(penjualanProv.kembali.abs())}',
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 30,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context, true);
+                                                          },
+                                                          child:
+                                                              const Text("OK"),
+                                                        ),
+                                                      ],
+                                                      actionsAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                    );
+                                                  },
+                                                ).then((value) {
+                                                  penjualanProv.clearAll();
+                                                  Navigator.of(context)
+                                                      .pushNamedAndRemoveUntil(
+                                                          '/menu',
+                                                          (Route<dynamic>
+                                                                  route) =>
+                                                              false);
+                                                });
+                                              }
+                                              penjualanProv.cNominalBayar
+                                                  .clear();
+                                            } catch (e) {}
+                                          },
+                                        )
+                                      : customSnackbar(
+                                          context,
+                                          'Transaksi masih kosong.',
+                                          Colors.red,
+                                          const Duration(seconds: 3),
+                                        );
+                                },
                                 child: const Text("Bayar"),
                               ),
                             )

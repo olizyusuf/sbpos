@@ -12,10 +12,13 @@ class PenjualanProvider extends ChangeNotifier {
   double potongan = 0;
   int subtotal = 0;
   double total = 0;
+  double bayar = 0;
+  double kembali = 0;
 
   TextEditingController cCariKodeBarang = TextEditingController();
   TextEditingController cQtyItem = TextEditingController();
   TextEditingController cDiskonAmount = TextEditingController();
+  TextEditingController cNominalBayar = TextEditingController();
 
   DatabaseInstance dbInstance = DatabaseInstance.instance;
 
@@ -90,6 +93,8 @@ class PenjualanProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void payment() {}
+
   void diskonTotal() {
     if (prosen) {
       potongan = subtotal * double.parse(cDiskonAmount.text.toString());
@@ -133,5 +138,19 @@ class PenjualanProvider extends ChangeNotifier {
         },
       );
     }
+  }
+
+  void clearAll() {
+    tempPenjualan.clear();
+    cDiskonAmount.clear();
+    cNominalBayar.clear();
+    prosen = false;
+    price = 0;
+    ppn = 0;
+    potongan = 0;
+    subtotal = 0;
+    total = 0;
+    bayar = 0;
+    kembali = 0;
   }
 }
