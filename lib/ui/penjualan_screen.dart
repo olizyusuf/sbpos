@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sbpos/providers/penjualan_provider.dart';
@@ -88,7 +89,7 @@ class PenjualanScreen extends StatelessWidget {
                                   color: index % 2 == 0
                                       ? Colors.white
                                       : Colors.grey[200],
-                                  height: 40,
+                                  height: 60,
                                   child: Row(
                                     children: [
                                       SizedBox(
@@ -96,7 +97,7 @@ class PenjualanScreen extends StatelessWidget {
                                         child: Text(
                                           "${index + 1} ",
                                           style: TextStyle(
-                                              fontSize: 12,
+                                              fontSize: 14,
                                               color: Colors.grey[500]),
                                         ),
                                       ),
@@ -114,6 +115,7 @@ class PenjualanScreen extends StatelessWidget {
                                                         100, 5, 100, 0),
                                                 content: SizedBox(
                                                   child: TextField(
+                                                    autofocus: true,
                                                     textAlign: TextAlign.center,
                                                     keyboardType:
                                                         TextInputType.number,
@@ -151,6 +153,11 @@ class PenjualanScreen extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
+                                                data.kdBarang,
+                                                style: const TextStyle(
+                                                    fontSize: 14),
+                                              ),
+                                              Text(
                                                 data.nama,
                                                 style: const TextStyle(
                                                     fontSize: 14),
@@ -181,7 +188,34 @@ class PenjualanScreen extends StatelessWidget {
                                       ),
                                       Expanded(
                                         child: IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: Text(
+                                                      'Batalkan ${data.nama}?'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child:
+                                                          const Text('Tidak'),
+                                                    ),
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          penjualanProv
+                                                              .batalItem(index);
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Text('Ya'))
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
                                           icon: const Icon(Icons.delete),
                                         ),
                                       )
@@ -222,11 +256,17 @@ class PenjualanScreen extends StatelessWidget {
                                                       100, 5, 100, 0),
                                               content: SizedBox(
                                                 child: TextField(
+                                                  autofocus: true,
                                                   textAlign: TextAlign.center,
                                                   keyboardType:
                                                       TextInputType.number,
                                                   controller: penjualanProv
                                                       .cDiskonAmount,
+                                                  inputFormatters: [
+                                                    CurrencyTextInputFormatter(
+                                                        decimalDigits: 0,
+                                                        symbol: '')
+                                                  ],
                                                 ),
                                               ),
                                               actions: [
@@ -294,13 +334,29 @@ class PenjualanScreen extends StatelessWidget {
                                                 height: 200,
                                                 child: Column(
                                                   children: [
+                                                    Text(
+                                                      'Total : Rp. ${numToIdr(penjualanProv.total)}',
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                      ),
+                                                    ),
                                                     TextField(
+                                                      autofocus: true,
+                                                      keyboardType:
+                                                          TextInputType.number,
                                                       textAlign:
                                                           TextAlign.center,
                                                       controller: penjualanProv
                                                           .cNominalBayar,
+                                                      inputFormatters: [
+                                                        CurrencyTextInputFormatter(
+                                                            decimalDigits: 0,
+                                                            symbol: '')
+                                                      ],
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       height: 10,
                                                     ),
                                                     const Text('Uang Pas'),
@@ -312,9 +368,8 @@ class PenjualanScreen extends StatelessWidget {
                                                         ElevatedButton(
                                                           onPressed: () {
                                                             penjualanProv
-                                                                    .cNominalBayar
-                                                                    .text =
-                                                                5000.toString();
+                                                                .cNominalBayar
+                                                                .text = "5,000";
                                                           },
                                                           child: const Text(
                                                               ' 5.000 '),
@@ -322,10 +377,8 @@ class PenjualanScreen extends StatelessWidget {
                                                         ElevatedButton(
                                                           onPressed: () {
                                                             penjualanProv
-                                                                    .cNominalBayar
-                                                                    .text =
-                                                                10000
-                                                                    .toString();
+                                                                .cNominalBayar
+                                                                .text = "10,000";
                                                           },
                                                           child: const Text(
                                                               ' 10.000 '),
@@ -333,10 +386,8 @@ class PenjualanScreen extends StatelessWidget {
                                                         ElevatedButton(
                                                           onPressed: () {
                                                             penjualanProv
-                                                                    .cNominalBayar
-                                                                    .text =
-                                                                20000
-                                                                    .toString();
+                                                                .cNominalBayar
+                                                                .text = "20,000";
                                                           },
                                                           child: const Text(
                                                               '20.000'),
@@ -351,10 +402,8 @@ class PenjualanScreen extends StatelessWidget {
                                                         ElevatedButton(
                                                           onPressed: () {
                                                             penjualanProv
-                                                                    .cNominalBayar
-                                                                    .text =
-                                                                50000
-                                                                    .toString();
+                                                                .cNominalBayar
+                                                                .text = "50,000";
                                                           },
                                                           child: const Text(
                                                               '50.000'),
@@ -362,16 +411,18 @@ class PenjualanScreen extends StatelessWidget {
                                                         ElevatedButton(
                                                           onPressed: () {
                                                             penjualanProv
-                                                                    .cNominalBayar
-                                                                    .text =
-                                                                100000
-                                                                    .toString();
+                                                                .cNominalBayar
+                                                                .text = "100,000";
                                                           },
                                                           child: const Text(
                                                               '100.000'),
                                                         ),
                                                         ElevatedButton(
-                                                          onPressed: () {},
+                                                          onPressed: () {
+                                                            penjualanProv
+                                                                .cNominalBayar
+                                                                .clear();
+                                                          },
                                                           child: const Text(
                                                               'Custom'),
                                                         ),
@@ -391,21 +442,41 @@ class PenjualanScreen extends StatelessWidget {
                                                 ElevatedButton(
                                                   onPressed: () {
                                                     if (penjualanProv
-                                                        .cNominalBayar
-                                                        .text
-                                                        .isNotEmpty) {
-                                                      penjualanProv.bayar =
-                                                          double.parse(
+                                                            .cNominalBayar
+                                                            .text
+                                                            .isNotEmpty &&
+                                                        penjualanProv.total <=
+                                                            double.parse(
                                                               penjualanProv
                                                                   .cNominalBayar
                                                                   .text
-                                                                  .toString());
+                                                                  .replaceAll(
+                                                                      RegExp(
+                                                                          ","),
+                                                                      '')
+                                                                  .toString(),
+                                                            )) {
+                                                      penjualanProv.bayar =
+                                                          double.parse(
+                                                        penjualanProv
+                                                            .cNominalBayar.text
+                                                            .replaceAll(
+                                                                RegExp(","), '')
+                                                            .toString(),
+                                                      );
                                                       penjualanProv.kembali =
                                                           penjualanProv.total -
                                                               penjualanProv
                                                                   .bayar;
                                                       Navigator.pop(
                                                           context, true);
+                                                    } else {
+                                                      customSnackbar(
+                                                          context,
+                                                          'Nominal harus sesuai',
+                                                          Colors.red,
+                                                          const Duration(
+                                                              seconds: 1));
                                                     }
                                                   },
                                                   child: const Text("Bayar"),
@@ -423,10 +494,10 @@ class PenjualanScreen extends StatelessWidget {
                                                   context: context,
                                                   builder: (context) {
                                                     return AlertDialog(
-                                                      title: Text(
+                                                      title: const Text(
                                                           "Pembayaran Berhasil"),
                                                       content: SizedBox(
-                                                        height: 100,
+                                                        height: 120,
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -456,7 +527,7 @@ class PenjualanScreen extends StatelessWidget {
                                                               'Kembali: Rp. ${numToIdr(penjualanProv.kembali.abs())}',
                                                               style:
                                                                   const TextStyle(
-                                                                fontSize: 30,
+                                                                fontSize: 27,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -492,7 +563,9 @@ class PenjualanScreen extends StatelessWidget {
                                               }
                                               penjualanProv.cNominalBayar
                                                   .clear();
-                                            } catch (e) {}
+                                            } catch (e) {
+                                              debugPrint(e.toString());
+                                            }
                                           },
                                         )
                                       : customSnackbar(

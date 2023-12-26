@@ -54,7 +54,7 @@ class PenjualanProvider extends ChangeNotifier {
           tempPenjualan[index].jumlah * tempPenjualan[index].hargaJual;
     } else {
       for (var r in response) {
-        debugPrint(r.toString());
+        // debugPrint(r.toString());
         int jmlh = 1;
         int subttl = r['harga_jual'] * jmlh;
         tempPenjualan.add(DetailPenjualanModel(
@@ -97,9 +97,12 @@ class PenjualanProvider extends ChangeNotifier {
 
   void diskonTotal() {
     if (prosen) {
-      potongan = subtotal * double.parse(cDiskonAmount.text.toString());
+      potongan = subtotal *
+          double.parse(
+              cDiskonAmount.text.replaceAll(RegExp(","), '').toString());
     } else {
-      potongan = double.parse(cDiskonAmount.text.toString());
+      potongan = double.parse(
+          cDiskonAmount.text.replaceAll(RegExp(","), '').toString());
     }
     totalTransaksi();
     notifyListeners();
@@ -138,6 +141,13 @@ class PenjualanProvider extends ChangeNotifier {
         },
       );
     }
+  }
+
+  void batalItem(int index) {
+    tempPenjualan.removeAt(index);
+
+    totalTransaksi();
+    notifyListeners();
   }
 
   void clearAll() {

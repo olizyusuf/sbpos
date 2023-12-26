@@ -19,7 +19,7 @@ class LoginProvider extends ChangeNotifier {
 
   void login(context) async {
     bool bypassMatel = bypass();
-    String tempIdUser = cIdUser.text.toUpperCase();
+    String tempIdUser = cIdUser.text;
     String tempPassword = cPassword.text;
     if (bypassMatel) {
       debugPrint('navigator ke menu utama');

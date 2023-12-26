@@ -56,8 +56,7 @@ class UsersScreen extends StatelessWidget {
                                   backgroundColor: index % 2 == 0
                                       ? Colors.blueAccent
                                       : Colors.purpleAccent,
-                                  child:
-                                      Text('${userData.user[0].toUpperCase()}'),
+                                  child: Text('${userData.user[0]}'),
                                 ),
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
