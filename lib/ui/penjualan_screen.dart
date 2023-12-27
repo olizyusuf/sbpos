@@ -241,7 +241,10 @@ class PenjualanScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Subtotal: ${numToIdr(sub.subtotal)}"),
+                                Text(
+                                  "Subtotal: ${numToIdr(sub.subtotal)}",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
                                 Row(
                                   children: [
                                     GestureDetector(
@@ -287,22 +290,25 @@ class PenjualanScreen extends StatelessWidget {
                                       child: const Text(
                                         "Diskon",
                                         style: TextStyle(
+                                            fontSize: 16,
                                             decoration:
                                                 TextDecoration.underline,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                    Text(" : ${numToIdr(sub.potongan)}"),
+                                    Text(" : ${numToIdr(sub.potongan)}",
+                                        style: const TextStyle(fontSize: 16)),
                                   ],
                                 ),
-                                Text("PPN 11%: ${numToIdr(sub.ppn)}")
+                                Text("PPN 11%: ${numToIdr(sub.ppn)}",
+                                    style: const TextStyle(fontSize: 16))
                               ],
                             );
                           },
                         )),
                     Expanded(
                       child: Container(
-                        color: Colors.amber,
+                        color: Colors.grey[400],
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

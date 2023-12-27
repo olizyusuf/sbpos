@@ -71,5 +71,29 @@ class DatabaseInstance {
       FOREIGN KEY("kategori") REFERENCES kategori("id_kategori") ON UPDATE CASCADE
       );
     ''');
+    await db.execute('''CREATE TABLE "penjualan"(
+      "id_penjualan" TEXT NOT NULL UNIQUE,
+      "total_item" INTEGER NOT NULL,
+      "subtotal" INTEGER NOT NULL,
+      "diskon" INTEGER NOT NULL,
+      "jenis_pembayaran" TEXT NOT NULL,
+      "user" TEXT NOT NULL,
+      "create_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
+      "update_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY("id_penjualan")
+    );''');
+    await db.execute('''CREATE TABLE "detail_penjualan(
+      "id_detail_penjualan" INTEGER NOT NULL,
+      "id_penjualan" TEXT,
+      "kd_barang" TEXT,
+      "nama" TEXT,
+      "harga_jual" INTEGER,
+      "jumlah" INTEGER,
+      "diskon" INTEGER,
+      "subtotal" INTEGER,
+      "create_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
+      "update_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY("id_detail_penjualan" AUTOINCREMENT);
+    )''');
   }
 }
